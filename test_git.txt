@@ -1,1 +1,2 @@
-Test Update of Git
+Test Update of Git.
+Nguyen Van Tien
