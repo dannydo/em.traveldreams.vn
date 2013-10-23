@@ -9,6 +9,7 @@
 
 namespace Application;
 
+use Zend\Db\TableGateway\Feature\GlobalAdapterFeature;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
@@ -19,6 +20,10 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        $serviceManager = $e->getApplication()->getServiceManager();
+        $dbAdapter = $serviceManager->get('db_english_media');
+        GlobalAdapterFeature::setStaticAdapter($dbAdapter);
     }
 
     public function getConfig()
