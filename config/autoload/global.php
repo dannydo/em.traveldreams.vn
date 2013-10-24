@@ -16,7 +16,7 @@ return array(
         'adapters' => array(
             'db_english_media' => array(
                 'driver'         => 'Pdo',
-                'dsn'            => 'mysql:dbname=zf2tutorial;host=localhost',
+                'dsn'            => 'mysql:dbname=em.traveldreams.vn;host=localhost',
                 'username' => 'developer',
                 'password' => 'kiss259',
                 'driver_options' => array(
