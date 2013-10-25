@@ -1,0 +1,48 @@
+<style>
+    div.list-group {
+        border: 1px solid #aaaaaa;
+        border-top: none;
+        border-radius: 0px;
+        position: relative;
+        height: 550px;
+        overflow: auto;
+    }
+
+    div.list-group a.list-group-item {
+        border: none;
+        border-bottom: 1px solid #aaaaaa;
+        border-radius: 0px;
+        margin-bottom: 0px;
+    }
+
+    div.list-group #search_list {
+        margin: 0px;
+        padding: 0px;
+    }
+</style>
+<br>
+<input type="text" id="filter" style="width: 250px" value="" placeholder="Filter">
+<div class="list-group" style="width: 250px">
+    <ul id="search_list">
+    <?php foreach($dictionaries as $dictionary) : ?>
+        <li href="#" class="list-group-item" id="<?php echo $dictionary->wordId; ?>"><h4 class="list-group-item-heading"><?php echo $dictionary->word; ?></h4>
+            <p class="list-group-item-text">
+                <?php
+                $detail = strip_tags($dictionary->definition);
+                $pos = (strlen($detail) > 40) ? strpos($detail, ' ', 40) : 40;
+                $pos = ($pos) ? $pos : 40;
+                echo substr($detail, 0, $pos).'...';
+                ?>
+            </p>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+</div>
+
+<script>
+    $(function() {
+        $('#filter').fastLiveFilter('#search_list', {
+            timeout: 200
+        });
+    });
+</script>

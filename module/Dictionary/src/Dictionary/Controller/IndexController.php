@@ -23,10 +23,10 @@ class IndexController extends AbstractActionController {
     public function indexAction() {
         $this->getAdapter();
         $this->enVITable = new ENVITable($this->dbAdapter);
-        Debug::dump($this->enVITable->fetchAll()->current());
 
         return new ViewModel(
             array(
+                'dictionaries' => $this->enVITable->fetchAll(),
             )
         );
     }
