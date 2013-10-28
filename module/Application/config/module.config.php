@@ -100,6 +100,7 @@ return array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Library' => 'Application\Controller\LibraryController',
             'Application\Controller\Word' => 'Application\Controller\WordController',
+            'Application\Controller\AddWord' => 'Application\Controller\AddWordController'
         ),
     ),
     'view_manager' => array(

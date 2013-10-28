@@ -59,4 +59,33 @@ class WordTable extends AbstractTableGateway {
     public function getWordByWordId($wordId) {
         return $this->select(array('WordId' => $wordId))->current();
     }
+
+    /**
+     * Add new word
+     *
+     * @param $word
+     * @param $isToiec
+     * @return mixed
+     */
+    public function addNewWord($word, $isToiec)
+    {
+        $data = array(
+            'word' => $word,
+            'status' => 'NEED CONTENT',
+            'isToiec' => $isToiec,
+            'isActive' => 1,
+            'createdBy' => 1,
+            'createdDate' => new \DateTime(),
+            'updatedBy' => 1,
+            'updatedDate' => new \DateTime(),
+        );
+
+        return $this->insert($data);
+    }
+
+    public function getWordsByWord($word){
+        $wordList = $this->select(array('word' => $word));
+        foreach($wordList as $ite
+    }
+
 } 

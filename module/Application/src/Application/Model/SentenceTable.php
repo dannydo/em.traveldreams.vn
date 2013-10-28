@@ -28,6 +28,55 @@ class SentenceTable extends AbstractTableGateway {
     }
 
     /**
+     * @param $wordId
+     * @param $sentence
+     * @param $order
+     * @return int
+     */
+    public function addEnSentenceForWord($wordId, $sentence, $order){
+        $data = array(
+            'wordId' => $wordId,
+            'languageId' => 1,
+            'parentSentenceId' => null,
+            'sentence' => $sentence,
+            'order' => $order,
+            'createdBy' => 1,
+            'createdDate' => new \DateTime(),
+            'updatedBy' => 1,
+            'updatedDate' => new \DateTime(),
+            'isActive' => 1,
+            'isApproved' => 0
+        );
+
+        return $this->insert($data);
+    }
+
+    /**
+     * @param $wordId
+     * @param $parentSentenceId
+     * @param $sentence
+     * @param $order
+     * @return int
+     */
+    public function addViSentenceForWord($wordId, $parentSentenceId, $sentence, $order){
+        $data = array(
+            'wordId' => $wordId,
+            'languageId' => 2,
+            'parentSentenceId' => $parentSentenceId,
+            'sentence' => $sentence,
+            'order' => $order,
+            'createdBy' => 1,
+            'createdDate' => new \DateTime(),
+            'updatedBy' => 1,
+            'updatedDate' => new \DateTime(),
+            'isActive' => 1,
+            'isApproved' => 0
+        );
+
+        return $this->insert($data);
+    }
+
+     /**
      * Get list sentence by word and language
      *
      * @param int $wordId
