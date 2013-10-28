@@ -36,6 +36,30 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                    'library' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:controller[/:action]][/:status]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                    'word' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:controller[/:action]][/:wordId]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
@@ -74,7 +98,8 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'Application\Controller\Library' => 'Application\Controller\LibraryController'
+            'Application\Controller\Library' => 'Application\Controller\LibraryController',
+            'Application\Controller\Word' => 'Application\Controller\WordController',
         ),
     ),
     'view_manager' => array(

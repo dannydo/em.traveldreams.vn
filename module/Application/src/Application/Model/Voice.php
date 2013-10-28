@@ -11,32 +11,32 @@ namespace Application\Model;
 
 class Voice {
 
-    public $voiceId;
-    public $accentTypeId;
-    public $fileId;
-    public $languageId;
-    public $objectId;
-    public $objectType;
-    public $createdBy;
-    public $createdDate;
-    public $updatedBy;
-    public $updatedDate;
-    public $approvedBy;
-    public $isApproved;
+    public $VoiceId;
+    public $AccentTypeId;
+    public $FileId;
+    public $LanguageId;
+    public $ObjectId;
+    public $ObjectType;
+    public $CreatedBy;
+    public $CreatedDate;
+    public $UpdatedBy;
+    public $UpdatedDate;
+    public $ApprovedBy;
+    public $IsApproved;
 
 
     public function exchangeArray($data) {
-        $this->voiceId     = (!empty($data['VoiceId'])) ? $data['VoiceId'] : null;
-        $this->accentTypeId = (!empty($data['AccentTypeId'])) ? $data['AccentTypeId'] : null;
-        $this->fileId  = (!empty($data['FileId'])) ? $data['FileId'] : null;
-        $this->languageId  = (!empty($data['LanguageId'])) ? $data['LanguageId'] : null;
-        $this->languageId  = (!empty($data['ObjectId'])) ? $data['ObjectId'] : null;
-        $this->languageId  = (!empty($data['ObjectType'])) ? $data['ObjectType'] : null;
-        $this->createdBy  = (!empty($data['CreatedBy'])) ? $data['CreatedBy'] : null;
-        $this->createdDate  = (!empty($data['CreatedDate'])) ? $data['CreatedDate'] : null;
-        $this->updatedBy  = (!empty($data['UpdatedBy'])) ? $data['UpdatedBy'] : null;
-        $this->updatedDate  = (!empty($data['UpdatedDate'])) ? $data['UpdatedDate'] : null;
-        $this->approvedBy  = (!empty($data['ApprovedBy'])) ? $data['ApprovedBy'] : null;
-        $this->isApproved  = (!empty($data['IsApproved'])) ? $data['IsApproved'] : null;
+        $this->VoiceId     = (!empty($data['VoiceId'])) ? $data['VoiceId'] : null;
+        $this->AccentTypeId = (!empty($data['AccentTypeId'])) ? $data['AccentTypeId'] : null;
+        $this->FileId  = (!empty($data['FileId'])) ? $data['FileId'] : null;
+        $this->LanguageId  = (!empty($data['LanguageId'])) ? $data['LanguageId'] : null;
+        $this->ObjectId  = (!empty($data['ObjectId'])) ? $data['ObjectId'] : null;
+        $this->ObjectType  = (!empty($data['ObjectType'])) ? $data['ObjectType'] : null;
+        $this->CreatedBy  = (!empty($data['CreatedBy'])) ? $data['CreatedBy'] : null;
+        $this->CreatedDate  = (!empty($data['CreatedDate'])) ? $data['CreatedDate'] : null;
+        $this->UpdatedBy  = (!empty($data['UpdatedBy'])) ? $data['UpdatedBy'] : null;
+        $this->UpdatedDate  = (!empty($data['UpdatedDate'])) ? $data['UpdatedDate'] : null;
+        $this->ApprovedBy  = (!empty($data['ApprovedBy'])) ? $data['ApprovedBy'] : null;
+        $this->IsApproved  = (!empty($data['IsApproved'])) ? $data['IsApproved'] : null;
     }
 } 

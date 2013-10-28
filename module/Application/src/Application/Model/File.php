@@ -11,19 +11,19 @@ namespace Application\Model;
 
 class File {
 
-    public $fileId;
-    public $name;
-    public $extension;
-    protected $mimeType;
-    protected $SHA1;
-    protected $isActive;
+    public $FileId;
+    public $Name;
+    public $Extension;
+    public $MimeType;
+    public $SHA1;
+    public $IisActive;
 
     public function exchangeArray($data) {
-        $this->fileId     = (!empty($data['FileId'])) ? $data['FileId'] : null;
-        $this->name = (!empty($data['Name'])) ? $data['Name'] : null;
-        $this->extension  = (!empty($data['Extension'])) ? $data['Extension'] : null;
-        $this->mimeType  = (!empty($data['MimeType'])) ? $data['MimeType'] : null;
+        $this->FileId     = (!empty($data['FileId'])) ? $data['FileId'] : null;
+        $this->Name = (!empty($data['Name'])) ? $data['Name'] : null;
+        $this->Extension  = (!empty($data['Extension'])) ? $data['Extension'] : null;
+        $this->MimeType  = (!empty($data['MimeType'])) ? $data['MimeType'] : null;
         $this->SHA1  = (!empty($data['SHA1'])) ? $data['SHA1'] : null;
-        $this->isActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
+        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
     }
 } 

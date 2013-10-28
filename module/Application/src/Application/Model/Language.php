@@ -11,15 +11,15 @@ namespace Application\Model;
 
 class Language {
 
-    public $languageId;
-    public $name;
-    public $code;
-    public $isActive;
+    public $LanguageId;
+    public $Name;
+    public $Code;
+    public $IsActive;
 
     public function exchangeArray($data) {
-        $this->languageId     = (!empty($data['LanguageId'])) ? $data['LanguageId'] : null;
-        $this->name = (!empty($data['Name'])) ? $data['Name'] : null;
-        $this->code  = (!empty($data['Code'])) ? $data['Code'] : null;
-        $this->isActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
+        $this->LanguageId     = (!empty($data['LanguageId'])) ? $data['LanguageId'] : null;
+        $this->Name = (!empty($data['Name'])) ? $data['Name'] : null;
+        $this->Code  = (!empty($data['Code'])) ? $data['Code'] : null;
+        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
     }
 } 

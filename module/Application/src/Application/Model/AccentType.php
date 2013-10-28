@@ -11,13 +11,13 @@ namespace Application\Model;
 
 class AccentType {
 
-    public $accentTypeId;
-    public $accentName;
-    public $isActive;
+    public $AccentTypeId;
+    public $AccentName;
+    public $IsActive;
 
     public function exchangeArray($data) {
-        $this->accentTypeId     = (!empty($data['AccentTypeId'])) ? $data['AccentTypeId'] : null;
-        $this->accentName = (!empty($data['AccentName'])) ? $data['AccentName'] : null;
-        $this->isActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
+        $this->AccentTypeId     = (!empty($data['AccentTypeId'])) ? $data['AccentTypeId'] : null;
+        $this->AccentName = (!empty($data['AccentName'])) ? $data['AccentName'] : null;
+        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
     }
 } 

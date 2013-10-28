@@ -11,26 +11,26 @@ namespace Application\Model;
 
 class Word {
 
-    public $wordId;
-    public $word;
-    public $status;
-    public $createdBy;
-    public $createdDate;
-    public $updatedBy;
-    public $updatedDate;
-    public $approvedBy;
-    public $isActive;
+    public $WordId;
+    public $Word;
+    public $Status;
+    public $CreatedBy;
+    public $CreatedDate;
+    public $UpdatedBy;
+    public $UpdatedDate;
+    public $ApprovedBy;
+    public $IsActive;
 
 
     public function exchangeArray($data) {
-        $this->wordId = (!empty($data['WordId'])) ? $data['WordId'] : null;
-        $this->word     = (!empty($data['Word'])) ? $data['Word'] : null;
-        $this->status  = (!empty($data['Status'])) ? $data['Status'] : null;
-        $this->createdBy  = (!empty($data['CreatedBy'])) ? $data['CreatedBy'] : null;
-        $this->createdDate  = (!empty($data['CreatedDate'])) ? $data['CreatedDate'] : null;
-        $this->updatedBy  = (!empty($data['UpdatedBy'])) ? $data['UpdatedBy'] : null;
-        $this->updatedDate  = (!empty($data['UpdatedDate'])) ? $data['UpdatedDate'] : null;
-        $this->approvedBy  = (!empty($data['ApprovedBy'])) ? $data['ApprovedBy'] : null;
-        $this->isActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
+        $this->WordId = (!empty($data['WordId'])) ? $data['WordId'] : null;
+        $this->Word     = (!empty($data['Word'])) ? $data['Word'] : null;
+        $this->Status  = (!empty($data['Status'])) ? $data['Status'] : null;
+        $this->CreatedBy  = (!empty($data['CreatedBy'])) ? $data['CreatedBy'] : null;
+        $this->CreatedDate  = (!empty($data['CreatedDate'])) ? $data['CreatedDate'] : null;
+        $this->UpdatedBy  = (!empty($data['UpdatedBy'])) ? $data['UpdatedBy'] : null;
+        $this->UpdatedDate  = (!empty($data['UpdatedDate'])) ? $data['UpdatedDate'] : null;
+        $this->ApprovedBy  = (!empty($data['ApprovedBy'])) ? $data['ApprovedBy'] : null;
+        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
     }
 } 

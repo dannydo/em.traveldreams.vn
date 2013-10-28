@@ -17,6 +17,11 @@ class LanguageTable extends AbstractTableGateway {
 
     protected $table = 'Languages';
 
+    public $arrLanguage = array(
+        'EN' => 1,
+        'VI' => 2,
+    );
+
     public function __construct() {
         $this->adapter = GlobalAdapterFeature::getStaticAdapter();
 

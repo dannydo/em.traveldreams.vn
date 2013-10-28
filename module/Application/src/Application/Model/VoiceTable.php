@@ -15,7 +15,7 @@ use Zend\Db\TableGateway\Feature\GlobalAdapterFeature;
 
 class VoiceTable extends AbstractTableGateway {
 
-    protected $table = 'Meanings';
+    protected $table = 'Voices';
 
     public function __construct() {
         $this->adapter = GlobalAdapterFeature::getStaticAdapter();

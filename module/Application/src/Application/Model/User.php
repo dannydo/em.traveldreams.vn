@@ -10,18 +10,18 @@ namespace Application\Model;
 
 
 class User {
-    public $userId;
-    public $fullName;
-    public $username;
-    public $password;
-    public $isActive;
+    public $UserId;
+    public $FullName;
+    public $Username;
+    public $Password;
+    public $IsActive;
 
 
     public function exchangeArray($data) {
-        $this->userId     = (!empty($data['UserId'])) ? $data['UserId'] : null;
-        $this->fullName = (!empty($data['FullName'])) ? $data['FullName'] : null;
-        $this->username  = (!empty($data['Username'])) ? $data['Username'] : null;
-        $this->password  = (!empty($data['Password'])) ? $data['Password'] : null;
-        $this->isActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
+        $this->UserId     = (!empty($data['UserId'])) ? $data['UserId'] : null;
+        $this->FullName = (!empty($data['FullName'])) ? $data['FullName'] : null;
+        $this->Username  = (!empty($data['Username'])) ? $data['Username'] : null;
+        $this->Password  = (!empty($data['Password'])) ? $data['Password'] : null;
+        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
     }
 } 

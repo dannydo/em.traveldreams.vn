@@ -5,11 +5,11 @@
             <input type="text" class="form-control" id="filter" placeholder="Enter your word">
         </div>
         <ul class="nav" id="word-list">
-            <?php foreach($dictionaries as $dictionary) : ?>
-                <li id="<?php echo $dictionary->wordId; ?>"><a><b class="word-item-heading"><?php echo $dictionary->word; ?></b>
+            <?php foreach($words as $word) : ?>
+                <li class="word-list-item" id="<?php echo $word->WordId; ?>"><a><b class="word-item-heading"><?php echo $word->Word; ?></b>
                         <br>
                     <?php
-                        $detail = strip_tags($dictionary->definition);
+                        $detail = strip_tags($word->Meaning);
                         $pos = (strlen($detail) > 30) ? strpos($detail, ' ', 30) : 30;
                         $pos = ($pos) ? $pos : 30;
                         echo substr($detail, 0, $pos).'...';
@@ -258,5 +258,9 @@
         $('#filter').fastLiveFilter('#word-list', {
             timeout: 200
         });
+    });
+
+    $('.word-list-item').click(function() {
+        alert($(this).attr('id'));
     });
 </script>

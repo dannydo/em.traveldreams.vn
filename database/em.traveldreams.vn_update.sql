@@ -49,7 +49,7 @@ INSERT INTO  `em.traveldreams.vn`.`Languages` (
 VALUES (NULL ,  'English',  'en',  '1'),
        (NULL ,  'Vietnamese',  'vi',  '1');
 
-ALTER TABLE  `Sentences` ADD  `Order` INT( 2 ) NOT NULL
+ALTER TABLE  `Sentences` ADD  `Order` INT( 2 ) NOT NULL;
 
 INSERT INTO  `em.traveldreams.vn`.`Users` (
 `UserId` , `FullName` , `Username` , `Password` , `IsActive`

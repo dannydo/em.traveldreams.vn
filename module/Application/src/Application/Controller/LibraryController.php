@@ -8,15 +8,18 @@
 
 namespace Application\Controller;
 
-use Dictionary\Model\ENVITable;
+use Application\Model\LanguageTable;
+use Application\Model\MeaningTable;
+use Application\Model\SentenceTable;
+use Application\Model\WordTable;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class LibraryController extends AbstractActionController
 {
 
-    protected $dbAdapter;
-    protected $enVITable;
+    protected $wordTable;
+    protected $languageTable;
 
     public function indexAction()
     {
@@ -25,19 +28,15 @@ class LibraryController extends AbstractActionController
 
     public function showListAction()
     {
-        $this->getAdapter();
-        $this->enVITable = new ENVITable($this->dbAdapter);
+        $status = strtoupper($this->params()->fromRoute('status', ''));
+        $this->wordTable = new WordTable();
+        $this->languageTable = new LanguageTable();
 
         return new ViewModel(
             array(
-                'dictionaries' => $this->enVITable->fetchAll(),
+                'words' => $this->wordTable->fetchListWordByStatus($status, $this->languageTable->arrLanguage['EN']),
             )
         );
-    }
-
-    private function getAdapter() {
-        $serviceManager = $this->getServiceLocator();
-        $this->dbAdapter = $serviceManager->get('db_dictionary');
     }
 
 }
