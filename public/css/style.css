@@ -99,10 +99,20 @@ hr{
 	cursor:default;
 
 }
+
+#word-list {
+    position: relative;
+    height: 560px;
+    overflow: auto;
+}
+
+#word-list a {
+    cursor: pointer;
+}
+
 #word-list .active a, #word-list  .active a:hover{
 	background-color: #3276b1 !important; 
 	color:#fff !important;
-	
 }
 
 /*

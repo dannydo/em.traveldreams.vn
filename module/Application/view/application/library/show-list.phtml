@@ -1,0 +1,262 @@
+<div class="row row-offcanvas row-offcanvas-left">
+<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+    <div class="well sidebar-nav">
+        <div class="form-group">
+            <input type="text" class="form-control" id="filter" placeholder="Enter your word">
+        </div>
+        <ul class="nav" id="word-list">
+            <?php foreach($dictionaries as $dictionary) : ?>
+                <li id="<?php echo $dictionary->wordId; ?>"><a><b class="word-item-heading"><?php echo $dictionary->word; ?></b>
+                        <br>
+                    <?php
+                        $detail = strip_tags($dictionary->definition);
+                        $pos = (strlen($detail) > 30) ? strpos($detail, ' ', 30) : 30;
+                        $pos = ($pos) ? $pos : 30;
+                        echo substr($detail, 0, $pos).'...';
+                    ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <!--/.well -->
+</div>
+
+    <div class="col-xs-12 col-sm-12 col-md-8">
+        <p class="pull-left visible-xs"><button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button></p>
+
+        <form class="form-horizontal" role="form">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="inputEmail1" class="col-lg-3 control-label">Word</label>
+                        <div class="col-lg-7">
+                            <input type="text" class="form-control input-lg" id="inputEmail1" placeholder="Hello">
+                        </div>
+                        <div class="col-lg-2">
+                            <!-- status of this word-->
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group">
+                        <label for="inputEmail1" class="col-lg-3 control-label">US, Male</label>
+                        <div class="col-lg-9">
+                            <button type="button" class="btn  btn-default "><span class="glyphicon glyphicon-volume-up"></span></button>
+                            <button type="button" class="btn  btn-success "><span class="glyphicon glyphicon-ok"></span></button>
+                            <button type="button" class="btn  btn-default "><span class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail1" class="col-lg-3 control-label">Voice File</label>
+                        <div class="col-lg-3 ">
+                            <select class="form-control ">
+                                <option>US, Male</option>
+                                <option>US, Female</option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-4 ">
+                            <input type="file" class="form-control " id="inputEmail1">
+                        </div>
+
+                        <div class="col-lg-2">
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-open"></span> Upload</button>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-lg-offset-3 col-lg-9">
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Voice</button>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#en">English (5/6)</a></li>
+                <li class=""><a href="#vn">Vietnamese (3/6)</a></li>
+            </ul>
+
+            <br>
+            <div class="tab-content">
+                <!-- tab EN content -->
+                <div class="tab-pane active" id="en">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="inputEmail1" class="col-lg-3 control-label">Sentence #1</label>
+                                <div class="col-lg-7">
+                                    <input type="email" class="form-control" id="inputEmail1" placeholder="Hello, How are you?">
+                                </div>
+                                <div class="col-lg-2">
+                                    <button type="button" class="btn  btn-success ">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                    <button type="button" class="btn  btn-default ">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!--<div class="form-group">
+                                <label for="inputEmail1" class="col-lg-3 control-label">US, Male</label>
+                                <div class="col-lg-9">
+                                    <button type="button" class="btn  btn-default "><span class="glyphicon glyphicon-volume-up"></span></button>
+                                    <button type="button" class="btn  btn-success "><span class="glyphicon glyphicon-ok"></span></button>
+                                    <button type="button" class="btn  btn-default "><span class="glyphicon glyphicon-remove"></span></button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputEmail1" class="col-lg-3 control-label">Voice File</label>
+                                <div class="col-lg-3 ">
+                                    <select class="form-control ">
+                                        <option>US, Male</option>
+                                        <option>US, Female</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-4 ">
+                                    <input type="file" class="form-control " id="inputEmail1">
+                                </div>
+
+                                <div class="col-lg-2">
+                                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-open"></span> Upload</button>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-lg-offset-3 col-lg-9">
+                                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Voice</button>
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-offset-3 col-lg-9">
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Sentence</button>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="inputPassword1" class="col-lg-3 control-label">English Meaning</label>
+                                <div class="col-lg-7">
+                                    <textarea placeholder="input meaning of above word" class="form-control"></textarea>
+                                </div>
+                                <div class="col-lg-2">
+                                    <button type="button" class="btn  btn-success ">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end tab EN content -->
+
+                <!-- tab VI content -->
+                <div class="tab-pane" id="vn">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="inputEmail1" class="col-lg-3 control-label">Sentence #1</label>
+                                <div class="col-lg-7">
+                                    <input type="email" class="form-control" id="inputEmail1" placeholder="Xin chao, Ban co khoe khong ?"></div>
+                                <div class="col-lg-2">
+                                    <button type="button" class="btn  btn-success ">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                    <button type="button" class="btn  btn-default ">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!--<div class="form-group">
+                                <label for="inputEmail1" class="col-lg-3 control-label">US, Male</label>
+                                <div class="col-lg-9">
+                                    <button type="button" class="btn  btn-default "><span class="glyphicon glyphicon-volume-up"></span></button>
+                                    <button type="button" class="btn  btn-success "><span class="glyphicon glyphicon-ok"></span></button>
+                                    <button type="button" class="btn  btn-default "><span class="glyphicon glyphicon-remove"></span></button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputEmail1" class="col-lg-3 control-label">Voice File</label>
+                                <div class="col-lg-3 ">
+                                    <select class="form-control ">
+                                        <option>US, Male</option>
+                                        <option>US, Female</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-4 ">
+                                    <input type="file" class="form-control " id="inputEmail1">
+                                </div>
+
+                                <div class="col-lg-2">
+                                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-open"></span> Upload</button>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-lg-offset-3 col-lg-9">
+                                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Voice</button>
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-offset-3 col-lg-9">
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Sentence</button>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="inputPassword1" class="col-lg-3 control-label">Vietnamese Meaning</label>
+                                <div class="col-lg-7">
+                                    <textarea placeholder="input meaning of above word" class="form-control"></textarea>
+                                </div>
+                                <div class="col-lg-2">
+                                    <button type="button" class="btn  btn-success ">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- end tab VI content -->
+            </div>
+
+            <!-- save , clear button -->
+            <div class="form-group">
+                <div class="col-lg-offset-3 col-lg-9">
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button> <button type="submit" class="btn btn-default">Clear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--/span-->
+</div>
+
+
+<script>
+    $(function() {
+        $('#filter').fastLiveFilter('#word-list', {
+            timeout: 200
+        });
+    });
+</script>
