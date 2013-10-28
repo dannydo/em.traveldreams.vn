@@ -50,4 +50,47 @@ VALUES (NULL ,  'English',  'en',  '1'),
        (NULL ,  'Vietnamese',  'vi',  '1');
 
 ALTER TABLE  `Sentences` ADD  `Order` INT( 2 ) NOT NULL
+
+INSERT INTO  `em.traveldreams.vn`.`Users` (
+`UserId` , `FullName` , `Username` , `Password` , `IsActive`
+)
+VALUES (
+NULL ,  'Van Dao',  'vandao', MD5(  'password' ) ,  '0'
+);
+
+INSERT INTO  `em.traveldreams.vn`.`Words` (
+  `WordId` , `Word` , `Status` , `CreatedBy` , `CreatedDate` , `UpdatedBy` , `UpdatedDate` , `ApprovedBy` , `IsActive` , `IsToeic`
+)
+  VALUES (
+    NULL ,  'Hello',  'NEED CONTENT',  '1',  '2013-10-28 00:00:00', NULL , NULL , NULL ,  '1',  '1'
+  );
+
+INSERT INTO  `em.traveldreams.vn`.`Sentences` (
+  `SentenceId` , `ParentSentenceId` , `LanguageId` , `WordId` , `Sentence` , `CreatedBy` , `CreatedDate` , `UpdatedBy` , `UpdatedDate` , `ApprovedBy` , `IsApproved` , `IsActive` , `Order`
+)
+  VALUES (
+    NULL , NULL ,  '1',  '1',  'Hello, How are you?',  '1',  '2013-10-28 00:00:00', NULL , NULL , NULL ,  '0',  '1',  '1'),
+  (NULL ,  '1',  '2',  '1',  'Xin chào, Bạn có khoẻ không?',  '1',  '2013-10-28 00:00:00', NULL , NULL , NULL ,  '0',  '0',  '2');
+
+INSERT INTO  `em.traveldreams.vn`.`Tags` (
+  `TagId` , `TagName` , `IsActive`
+)
+  VALUES (
+    NULL ,  'Welcome',  '1'
+  );
+
+INSERT INTO  `em.traveldreams.vn`.`WordTags` (
+  `WordTagId` , `TagId` , `WordId`
+)
+  VALUES (
+    NULL ,  '1',  '1'
+  );
+INSERT INTO `em.traveldreams.vn`.`Meanings` (
+  `MeaningId`, `WordId`, `LanguageId`, `Meaning`, `CreatedBy`, `CreatedDate`, `UpdatedBy`, `UpdatedDate`, `ApprovedBy`, `IsApproved`
+)
+  VALUES (
+    NULL, '1', '1', 'an expression of greeting', '1', '2013-10-28 00:00:00', NULL, NULL, NULL, '0'),
+  (NULL, '1', '2', 'Xin chào!, Chào anh!, Chào chị!', '1', '2013-10-28 00:00:00', NULL, NULL, NULL, '0');
+
+INSERT INTO `em.traveldreams.vn`.`AccentTypes` (`AccentTypeId`, `AccentName`, `IsActive`) VALUES (NULL, 'US Male', '1'), (NULL, 'VN Male', '1');
 /*======================================= End 28-10-2013 =======================================*/
