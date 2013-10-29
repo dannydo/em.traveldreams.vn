@@ -27,6 +27,50 @@ class MeaningTable extends AbstractTableGateway {
     }
 
     /**
+     * add Enlish meaning for a word
+     *
+     * @param $wordId
+     * @param $meaning
+     * @return mixed
+     */
+    public function addEnMeaningForWord($wordId, $meaning){
+        $now = new \DateTime();
+        $data = array(
+            'WordId' => $wordId,
+            'LanguageId' => 1,
+            'Meaning' => $meaning,
+            'CreatedBy' => 1,
+            'CreatedDate' => $now->format('Y-m-d h::s'),
+            'UpdatedBy' => 1,
+            'UpdatedDate' => $now->format('Y-m-d h::s'),
+        );
+
+        return $this->insert($data)? $this->lastInsertValue : false;
+    }
+
+    /**
+     * add Vietnamese meaning for a word
+     *
+     * @param $wordId
+     * @param $meaning
+     * @return mixed
+     */
+    public function addViMeaningForWord($wordId, $meaning){
+        $now = new \DateTime();
+        $data = array(
+            'WordId' => $wordId,
+            'LanguageId' => 2,
+            'Meaning' => $meaning,
+            'CreatedBy' => 1,
+            'CreatedDate' => $now->format('Y-m-d h::s'),
+            'UpdatedBy' => 1,
+            'UpdatedDate' => $now->format('Y-m-d h::s'),
+        );
+
+        return $this->insert($data)? $this->lastInsertValue : false;
+    }
+
+    /**
      * Get list meaning by word and language
      *
      * @param int $wordId

@@ -28,6 +28,57 @@ class SentenceTable extends AbstractTableGateway {
     }
 
     /**
+     * @param $wordId
+     * @param $sentence
+     * @param $order
+     * @return int
+     */
+    public function addEnSentenceForWord($wordId, $sentence, $order){
+        $now = new \DateTime();
+        $data = array(
+            'wordId' => $wordId,
+            'languageId' => 1,
+            'parentSentenceId' => null,
+            'sentence' => $sentence,
+            'order' => $order,
+            'createdBy' => 1,
+            'createdDate' => $now->format('Y-m-d h::s'),
+            'updatedBy' => 1,
+            'updatedDate' => $now->format('Y-m-d h::s'),
+            'isActive' => 1,
+            'isApproved' => 0
+        );
+
+        return $this->insert($data)? $this->lastInsertValue : false;
+    }
+
+    /**
+     * @param $wordId
+     * @param $parentSentenceId
+     * @param $sentence
+     * @param $order
+     * @return int
+     */
+    public function addViSentenceForWord($wordId, $parentSentenceId, $sentence, $order){
+        $now = new \DateTime();
+        $data = array(
+            'WordId' => $wordId,
+            'LanguageId' => 2,
+            'ParentSentenceId' => $parentSentenceId,
+            'Sentence' => $sentence,
+            'Order' => $order,
+            'CreatedBy' => 1,
+            'CreatedDate' => $now->format('Y-m-d h::s'),
+            'UpdatedBy' => 1,
+            'UpdatedDate' => $now->format('Y-m-d h::s'),
+            'IsActive' => 1,
+            'IsApproved' => 0
+        );
+
+        return $this->insert($data)? $this->lastInsertValue : false;
+    }
+
+     /**
      * Get list sentence by word and language
      *
      * @param int $wordId

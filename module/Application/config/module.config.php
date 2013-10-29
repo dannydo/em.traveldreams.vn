@@ -134,6 +134,7 @@ return array(
             'Application\Controller\Word' => 'Application\Controller\WordController',
             'Application\Controller\Sentence' => 'Application\Controller\SentenceController',
             'Application\Controller\Meaning' => 'Application\Controller\MeaningController',
+            'Application\Controller\AddWord' => 'Application\Controller\AddWordController'
         ),
     ),
     'view_manager' => array(
@@ -150,6 +151,9 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy',
         ),
     ),
     // Placeholder for console routes

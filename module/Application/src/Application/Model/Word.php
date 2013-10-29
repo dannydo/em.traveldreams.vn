@@ -21,7 +21,6 @@ class Word {
     public $ApprovedBy;
     public $IsActive;
 
-
     public function exchangeArray($data) {
         $this->WordId = (!empty($data['WordId'])) ? $data['WordId'] : null;
         $this->Word     = (!empty($data['Word'])) ? $data['Word'] : null;
