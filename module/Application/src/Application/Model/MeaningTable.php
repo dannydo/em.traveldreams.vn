@@ -34,17 +34,18 @@ class MeaningTable extends AbstractTableGateway {
      * @return mixed
      */
     public function addEnMeaningForWord($wordId, $meaning){
+        $now = new \DateTime();
         $data = array(
-            'wordId' => $wordId,
-            'languageId' => 1,
-            'meaning' => $meaning,
-            'createdBy' => 1,
-            'createdDate' => new \DateTime(),
-            'updatedBy' => 1,
-            'updatedDate' => new \DateTime(),
+            'WordId' => $wordId,
+            'LanguageId' => 1,
+            'Meaning' => $meaning,
+            'CreatedBy' => 1,
+            'CreatedDate' => $now->format('Y-m-d h::s'),
+            'UpdatedBy' => 1,
+            'UpdatedDate' => $now->format('Y-m-d h::s'),
         );
 
-        return $this->insert($data);
+        return $this->insert($data)? $this->lastInsertValue : false;
     }
 
     /**
@@ -55,17 +56,18 @@ class MeaningTable extends AbstractTableGateway {
      * @return mixed
      */
     public function addViMeaningForWord($wordId, $meaning){
+        $now = new \DateTime();
         $data = array(
-            'wordId' => $wordId,
-            'languageId' => 2,
-            'meaning' => $meaning,
-            'createdBy' => 1,
-            'createdDate' => new \DateTime(),
-            'updatedBy' => 1,
-            'updatedDate' => new \DateTime(),
+            'WordId' => $wordId,
+            'LanguageId' => 2,
+            'Meaning' => $meaning,
+            'CreatedBy' => 1,
+            'CreatedDate' => $now->format('Y-m-d h::s'),
+            'UpdatedBy' => 1,
+            'UpdatedDate' => $now->format('Y-m-d h::s'),
         );
 
-        return $this->insert($data);
+        return $this->insert($data)? $this->lastInsertValue : false;
     }
 
     /**

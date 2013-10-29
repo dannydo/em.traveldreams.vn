@@ -67,24 +67,29 @@ class WordTable extends AbstractTableGateway {
      * @param $isToiec
      * @return mixed
      */
-    public function addNewWord($word, $isToiec)
+    public function addNewWord($word, $isToeic)
     {
+        $now = new \DateTime();
         $data = array(
-            'word' => $word,
-            'status' => 'NEED CONTENT',
-            'isToiec' => $isToiec,
-            'isActive' => 1,
-            'createdBy' => 1,
-            'createdDate' => new \DateTime(),
-            'updatedBy' => 1,
-            'updatedDate' => new \DateTime(),
+            'Word' => $word,
+            'Status' => 'NEED CONTENT',
+            'IsToeic' => $isToeic ? 1 : 0,
+            'IsActive' => 1,
+            'CreatedBy' => 1,
+            'CreatedDate' => $now->format('Y-m-d h::s'),
+            'UpdatedBy' => 1,
+            'UpdatedDate' => $now->format('Y-m-d h::s'),
         );
-
-        return $this->insert($data);
+        return $this->insert($data)? $this->lastInsertValue : false;
     }
 
-    public function getWordsByWord($word){
-        $wordList = $this->select(array('word' => $word));
+    public function getWordsByWord($word, $languageId = 1){
+        $select = new Select();
+        $select->from($this->table)
+            ->join('Meanings', 'Words.WordId = Meanings.WordId')
+            ->where(array('Word' => $word, 'LanguageId' => $languageId, 'IsActive' => 1));
+
+        return $this->selectWith($select);
 
     }
 

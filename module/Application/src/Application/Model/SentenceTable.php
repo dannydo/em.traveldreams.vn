@@ -34,6 +34,7 @@ class SentenceTable extends AbstractTableGateway {
      * @return int
      */
     public function addEnSentenceForWord($wordId, $sentence, $order){
+        $now = new \DateTime();
         $data = array(
             'wordId' => $wordId,
             'languageId' => 1,
@@ -41,14 +42,14 @@ class SentenceTable extends AbstractTableGateway {
             'sentence' => $sentence,
             'order' => $order,
             'createdBy' => 1,
-            'createdDate' => new \DateTime(),
+            'createdDate' => $now->format('Y-m-d h::s'),
             'updatedBy' => 1,
-            'updatedDate' => new \DateTime(),
+            'updatedDate' => $now->format('Y-m-d h::s'),
             'isActive' => 1,
             'isApproved' => 0
         );
 
-        return $this->insert($data);
+        return $this->insert($data)? $this->lastInsertValue : false;
     }
 
     /**
@@ -59,21 +60,22 @@ class SentenceTable extends AbstractTableGateway {
      * @return int
      */
     public function addViSentenceForWord($wordId, $parentSentenceId, $sentence, $order){
+        $now = new \DateTime();
         $data = array(
-            'wordId' => $wordId,
-            'languageId' => 2,
-            'parentSentenceId' => $parentSentenceId,
-            'sentence' => $sentence,
-            'order' => $order,
-            'createdBy' => 1,
-            'createdDate' => new \DateTime(),
-            'updatedBy' => 1,
-            'updatedDate' => new \DateTime(),
-            'isActive' => 1,
-            'isApproved' => 0
+            'WordId' => $wordId,
+            'LanguageId' => 2,
+            'ParentSentenceId' => $parentSentenceId,
+            'Sentence' => $sentence,
+            'Order' => $order,
+            'CreatedBy' => 1,
+            'CreatedDate' => $now->format('Y-m-d h::s'),
+            'UpdatedBy' => 1,
+            'UpdatedDate' => $now->format('Y-m-d h::s'),
+            'IsActive' => 1,
+            'IsApproved' => 0
         );
 
-        return $this->insert($data);
+        return $this->insert($data)? $this->lastInsertValue : false;
     }
 
      /**
