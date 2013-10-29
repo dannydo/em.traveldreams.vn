@@ -85,7 +85,7 @@ class WordTable extends AbstractTableGateway {
 
     public function getWordsByWord($word){
         $wordList = $this->select(array('word' => $word));
-        foreach($wordList as $ite
+
     }
 
 } 
