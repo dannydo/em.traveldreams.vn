@@ -29,7 +29,6 @@ class WordController extends AbstractActionController
     }
 
     public function getWordAction() {
-        $userId = 1;
         $wordId = $this->params()->fromRoute('wordId', 0);
 
         $this->languageTable = new LanguageTable();
@@ -46,13 +45,11 @@ class WordController extends AbstractActionController
             $wordId = $dataPost['wordId'];
             $word['WordId'] = $dataPost['wordId'];
             $word['Word'] = $dataPost['txtWord'];
-            $word['UpdatedBy'] = $userId;
             $this->wordTable->editWord($word);
 
             // Update meaning for word
             $meaning['MeaningId'] = $dataPost['id-meaningEN'];
             $meaning['Meaning'] = $dataPost['meaningEN'];
-            $meaning['UpdatedBy'] = $userId;
             $this->meaningTable->editMeaning($meaning);
 
             $meaning['MeaningId'] = $dataPost['id-meaningVI'];
@@ -64,17 +61,18 @@ class WordController extends AbstractActionController
                 if ( $dataPost['id-sentencesEN'][$nSentence] != '' && is_numeric($dataPost['id-sentencesEN'][$nSentence])) {
                     $sentence['SentenceId'] = $dataPost['id-sentencesEN'][$nSentence];
                     $sentence['Sentence'] = $dataPost['content-sentencesEN'][$nSentence];
-                    $sentence['UpdatedBy'] = $userId;
+                    $sentence['Order'] = $nSentence + 1;
                     $this->sentenceTable->editSentence($sentence);
 
                     $sentence['SentenceId'] = $dataPost['id-sentencesVI'][$nSentence];
                     $sentence['Sentence'] = $dataPost['content-sentencesVI'][$nSentence];
                     $this->sentenceTable->editSentence($sentence);
-                } else {
+                } else if (trim($dataPost['content-sentencesEN'][$nSentence]) != '' || trim($dataPost['content-sentencesVI'][$nSentence]) != '') {
+
                     $sentence['LanguageId'] = $this->languageTable->arrLanguage['EN'];
                     $sentence['WordId'] = $wordId;
                     $sentence['Sentence'] = $dataPost['content-sentencesEN'][$nSentence];
-                    $sentence['CreatedBy'] = $userId;
+                    $sentence['Order'] = $nSentence + 1;
                     unset($sentence['SentenceId']);
                     $sentenceId = $this->sentenceTable->addSentence($sentence);
 

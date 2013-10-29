@@ -56,9 +56,9 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div id="sentencesEN">
-                    <?php $nApprovedEN = 0; $nTotalEN=0; ?>
+                    <?php $nApprovedEN = 0; $nTotalEN = 0; ?>
                     <?php $i=1; foreach($data['SentenceEN'] as $sentence) : ?>
-                    <?php $nApprovedEN = $nApprovedEN + ($sentence->IsApproved) ? 1 : 0; ?>
+                    <?php $nApprovedEN = $nApprovedEN + (($sentence->IsApproved) ? 1 : 0); ?>
                     <div class="form-group" id="sentenceEN-<?php echo $i; ?>">
                         <input type="hidden" name="id-sentencesEN[]" value="<?php echo $sentence->SentenceId; ?>">
                         <label for="sentenceEN-<?php echo $i; ?>" class="col-lg-3 control-label">Sentence #<?php echo $i; ?></label>
@@ -66,12 +66,15 @@
                             <input type="text" name="content-sentencesEN[]" class="form-control" id="sentenceEN-<?php echo $i; ?>" value="<?php echo $sentence->Sentence; ?>">
                         </div>
                         <div class="col-lg-2">
-                            <button type="button" class="btn <?php echo ($sentence->IsApproved) ? 'btn-success' : 'btn-default' ?>">
+                            <button type="button" class="btn <?php echo ($sentence->IsApproved) ? 'btn-success' : 'btn-default' ?>"
+                                    onclick="approveSentence(<?php echo $sentence->SentenceId; ?>, 'EN')" id="btnSentence<?php echo $sentence->SentenceId; ?>">
                                 <span class="glyphicon glyphicon-ok"></span>
                             </button>
-                            <button type="button" class="btn  btn-default" onclick="ajaxDeleteSentence(<?php echo $i; ?>)">
+                            <?php if($i > 1): ?>
+                            <button type="button" class="btn btn-default" onclick="ajaxDeleteSentence(<?php echo $i; ?>, <?php echo $sentence->SentenceId; ?>)">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <?php $i++; endforeach; $nTotalEN=$i-1;?>
@@ -129,12 +132,13 @@
                         <textarea id="meaningEN" name="meaningEN" class="form-control"><?php echo $data['MeaningEN']->Meaning; ?></textarea>
                     </div>
                     <div class="col-lg-2">
-                        <button type="button" class="btn <?php echo ($data['MeaningEN']->IsApproved) ? 'btn-success' : 'btn-default' ?>">
+                        <button type="button" class="btn <?php echo ($data['MeaningEN']->IsApproved) ? 'btn-success' : 'btn-default' ?>"
+                                onclick="approveMeaning(<?php echo $data['MeaningEN']->MeaningId; ?>, 'EN')" id="btnMeaning<?php echo $data['MeaningEN']->MeaningId; ?>">
                             <span class="glyphicon glyphicon-ok"></span>
                         </button>
                     </div>
                     <?php
-                    $nApprovedEN = $nApprovedEN + ($data['MeaningEN']->IsApproved) ? 1 : 0;
+                    $nApprovedEN = $nApprovedEN + (($data['MeaningEN']->IsApproved) ? 1 : 0);
                     $nTotalEN++;
                     ?>
                 </div>
@@ -148,9 +152,9 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div id="sentencesVI">
-                <?php $nApprovedVI = 0; $nTotalVI=0; ?>
+                <?php $nApprovedVI = 0; $nTotalVI = 0; ?>
                 <?php $i=1; foreach($data['SentenceVI'] as $sentence) : ?>
-                <?php $nApprovedVI = $nApprovedVI + ($sentence->IsApproved) ? 1 : 0; ?>
+                <?php $nApprovedVI = $nApprovedVI + (($sentence->IsApproved) ? 1 : 0); ?>
                     <div class="form-group" id="sentenceVI-<?php echo $i; ?>">
                         <input type="hidden" name="id-sentencesVI[]" value="<?php echo $sentence->SentenceId; ?>">
                         <label for="sentenceVI-<?php echo $i; ?>" class="col-lg-3 control-label">Sentence #<?php echo $i; ?></label>
@@ -158,12 +162,15 @@
                             <input type="text" name="content-sentencesVI[]" class="form-control" id="sentenceVI-<?php echo $i; ?>" value="<?php echo $sentence->Sentence; ?>">
                         </div>
                         <div class="col-lg-2">
-                            <button type="button" class="btn <?php echo ($sentence->IsApproved) ? 'btn-success' : 'btn-default' ?>">
+                            <button type="button" class="btn <?php echo ($sentence->IsApproved) ? 'btn-success' : 'btn-default' ?>"
+                                onclick="approveSentence(<?php echo $sentence->SentenceId; ?>, 'VI')" id="btnSentence<?php echo $sentence->SentenceId; ?>">
                                 <span class="glyphicon glyphicon-ok"></span>
                             </button>
-                            <button type="button" class="btn  btn-default" onclick="ajaxDeleteSentence(<?php echo $i; ?>)">
+                            <?php if($i > 1): ?>
+                            <button type="button" class="btn btn-default" onclick="ajaxDeleteSentence(<?php echo $i; ?>, <?php echo $sentence->SentenceId; ?>)">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
+                            <?php endif; ?>
                         </div>
                     </div>
                 <?php $i++; endforeach; $nTotalVI=$i-1;?>
@@ -221,12 +228,13 @@
                         <textarea name="meaningVI" id="meaningVI" class="form-control"><?php echo $data['MeaningVI']->Meaning; ?></textarea>
                     </div>
                     <div class="col-lg-2">
-                        <button type="button" class="btn <?php echo ($data['MeaningEN']->IsApproved) ? 'btn-success' : 'btn-default' ?>">
+                        <button type="button" class="btn <?php echo ($data['MeaningVI']->IsApproved) ? 'btn-success' : 'btn-default' ?>"
+                                onclick="approveMeaning(<?php echo $data['MeaningVI']->MeaningId; ?>, 'VI')" id="btnMeaning<?php echo $data['MeaningVI']->MeaningId; ?>">
                             <span class="glyphicon glyphicon-ok"></span>
                         </button>
                     </div>
                     <?php
-                    $nApprovedVI = $nApprovedVI + ($data['MeaningEN']->IsApproved) ? 1 : 0;
+                    $nApprovedVI = $nApprovedVI + (($data['MeaningVI']->IsApproved) ? 1 : 0);
                     $nTotalVI++;
                     ?>
                 </div>
@@ -239,7 +247,8 @@
 <!-- save , clear button -->
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-9">
-        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button> <button type="submit" class="btn btn-default">Clear</button>
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+        <button type="reset" class="btn btn-default">Clear</button>
     </div>
 </div>
 
@@ -250,7 +259,15 @@
         $(this).tab('show')
     });
 
+    var nApprovedEN = <?php echo $nApprovedEN; ?>;
+    var nTotalEN = <?php echo $nTotalEN; ?>;
+    var nApprovedVI = <?php echo $nApprovedVI; ?>;
+    var nTotalVI = <?php echo $nTotalVI; ?>;
     var nSentence = <?php echo $data['SentenceEN']->count(); ?>;
+
+    $('#tabEN').html('English (' + nApprovedEN + '/' + nTotalEN + ')');
+    $('#tabVI').html('Vietnamese (' + nApprovedVI + '/' + nTotalVI + ')');
+
     function addSentences() {
         nSentence = nSentence + 1;
         $html = '<div class="form-group" id="sentenceVI-' + nSentence +'">' +
@@ -287,13 +304,69 @@
         $('#sentenceEN-' + nSentence).remove();
     }
 
-    function ajaxDeleteSentence(nSentence) {
+    function ajaxDeleteSentence(nSentence, sentenceId) {
         if (confirm("Are you sure delete?")) {
-            $('#sentenceVI-' + nSentence).remove();
-            $('#sentenceEN-' + nSentence).remove();
+            var objEN = $('#sentenceEN-' + nSentence);
+            var btnEN = $(objEN).find('[id^="btnSentence"]')[0];
+            if($(btnEN).attr('class').indexOf('btn-default') >= 0) {
+                nTotalEN--;
+            } else {
+                nApprovedEN--; nTotalEN--;
+            }
+            $('#tabEN').html('English (' + nApprovedEN + '/' + nTotalEN + ')');
+            $(objEN).remove();
+
+            var objVI = $('#sentenceVI-' + nSentence);
+            var btnVI = $(objVI).find('[id^="btnSentence"]')[0];
+            if($(btnVI).attr('class').indexOf('btn-default') >= 0) {
+                nTotalVI--;
+            } else {
+                nApprovedVI--; nTotalVI--;
+            }
+            $('#tabVI').html('Vietnamese (' + nApprovedVI + '/' + nTotalVI + ')');
+            $(objVI).remove();
+
+            $.ajax({url:"/sentence/delete/"+ sentenceId,success:function(result){
+
+            }});
         }
     }
 
-    $('#tabEN').html('English (<?php echo $nApprovedEN.'/'.$nTotalEN; ?>)');
-    $('#tabVI').html('Vietnamese (<?php echo $nApprovedVI.'/'.$nTotalVI; ?>)');
+    function approveMeaning(meaningId, language) {
+        var obj = $('#btnMeaning'+meaningId);
+        var isApproved = updateButton(obj, language);
+
+        $.ajax({url:"/meaning/approve/"+ meaningId + "/" + isApproved,success:function(result){
+
+        }});
+    }
+
+    function approveSentence(sentenceId, language) {
+        var obj = $('#btnSentence'+sentenceId);
+        var isApproved = updateButton(obj, language);
+
+        $.ajax({url:"/sentence/approve/"+ sentenceId + "/" + isApproved,success:function(result){
+
+        }});
+    }
+
+    function updateButton(obj, language) {
+        var strClass = $(obj).attr('class');
+        var isApproved = 0;
+        if(strClass.indexOf('btn-default') >= 0) {
+            if (language == 'EN') nApprovedEN++;
+            if (language == 'VI') nApprovedVI++;
+            $(obj).attr('class', 'btn btn-success');
+            isApproved = 1;
+        } else {
+            if (language == 'EN') nApprovedEN--;
+            if (language == 'VI') nApprovedVI--;
+            $(obj).attr('class', 'btn btn-default');
+            isApproved = 0;
+        }
+
+        $('#tabEN').html('English (' + nApprovedEN + '/' + nTotalEN + ')');
+        $('#tabVI').html('Vietnamese (' + nApprovedVI + '/' + nTotalVI + ')');
+        return isApproved;
+    }
 </script>

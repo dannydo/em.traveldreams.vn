@@ -81,9 +81,16 @@ class MeaningTable extends AbstractTableGateway {
         return $this->select(array('WordId' => $wordId, 'LanguageId' => $languageId))->current();
     }
 
+    /**
+     * Update meaning
+     *
+     * @param $data
+     * @return int
+     */
     public function editMeaning($data) {
         $now = new \DateTime();
         $data['UpdatedDate'] = $now->format('Y-m-d h:m:s');
-        $this->update($data, array('MeaningId' => $data['MeaningId']));
+        $data['UpdatedBy'] = 1;
+        return $this->update($data, array('MeaningId' => $data['MeaningId']));
     }
 } 

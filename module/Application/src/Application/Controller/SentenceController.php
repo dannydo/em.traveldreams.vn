@@ -8,6 +8,7 @@
 
 namespace Application\Controller;
 
+use Application\Model\SentenceTable;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class SentenceController extends AbstractActionController
@@ -18,10 +19,30 @@ class SentenceController extends AbstractActionController
     }
 
     public function deleteAction() {
+        $sentenceId = $this->params()->fromRoute('sentenceId', 0);
+        echo $sentenceId;
+        $sentenceTable = new SentenceTable();
+        $sentence = $sentenceTable->getSentenceById($sentenceId);
+
+        if(!is_null($sentence)) {
+            if(is_null($sentence->ParentSentenceId)) {
+                $sentenceTable->deleteSentenceByParentSentenceId($sentenceId);
+                $sentenceTable->deleteSentence($sentenceId);
+            } else {
+                $sentenceTable->deleteSentenceByParentSentenceId($sentence->ParentSentenceId);
+                $sentenceTable->deleteSentence($sentence->ParentSentenceId);
+            }
+        }
+
         die('successful');
     }
 
     public function approveAction() {
+        $sentence['SentenceId'] = $this->params()->fromRoute('sentenceId', 0);
+        $sentence['IsApproved'] = $this->params()->fromRoute('isApproved', '');
+        $sentenceTable = new SentenceTable();
+        $sentenceTable->editSentence($sentence);
+
         die('successful');
     }
 }

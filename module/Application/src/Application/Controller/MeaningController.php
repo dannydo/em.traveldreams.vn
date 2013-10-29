@@ -8,6 +8,7 @@
 
 namespace Application\Controller;
 
+use Application\Model\MeaningTable;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class MeaningController extends AbstractActionController
@@ -18,6 +19,11 @@ class MeaningController extends AbstractActionController
     }
 
     public function approveAction() {
+        $meaning['MeaningId'] = $this->params()->fromRoute('meaningId', 0);
+        $meaning['IsApproved'] = $this->params()->fromRoute('isApproved', '');
+        $meaningTable = new MeaningTable();
+        $meaningTable->editMeaning($meaning);
+
         die('successful');
     }
 }

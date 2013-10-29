@@ -94,19 +94,64 @@ class SentenceTable extends AbstractTableGateway {
         return $this->selectWith($select);
     }
 
+    /**
+     * Update sentence
+     *
+     * @param $data
+     * @return int
+     */
     public function editSentence($data) {
         $now = new \DateTime();
         $data['UpdatedDate'] = $now->format('Y-m-d h:m:s');
-        $this->update($data, array('SentenceId' => $data['SentenceId']));
+        $data['UpdatedBy'] = 1;
+        return $this->update($data, array('SentenceId' => $data['SentenceId']));
     }
 
+    /**
+     * Add sentence
+     *
+     * @param array $data
+     * @return int
+     */
     public function addSentence($data) {
         $now = new \DateTime();
         $data['CreatedDate'] = $now->format('Y-m-d h:m:s');
+        $data['CreatedBy'] = 1;
+        $data['IsActive'] = 1;
         if($this->insert($data)) {
             return $this->lastInsertValue;
         }
 
         return 0;
+    }
+
+    /**
+     * Delete sentence
+     *
+     * @param $sentenceId
+     * @return int
+     */
+    public function deleteSentence($sentenceId) {
+        return $this->delete(array('SentenceId' => $sentenceId));
+    }
+
+    /**
+     * Delete sentences by parent sentence id
+     *
+     * @param $parentSentenceId
+     * @return int
+     */
+    public function deleteSentenceByParentSentenceId($parentSentenceId) {
+        return $this->delete(array('ParentSentenceId' => $parentSentenceId));
+    }
+
+    /**
+     * Get sentence by sentence id
+     *
+     * @param $sentenceId
+     * @return array|\ArrayObject|null
+     */
+    public function getSentenceById($sentenceId) {
+        return $this->select(array('SentenceId' => $sentenceId))->current();
     }
 } 
