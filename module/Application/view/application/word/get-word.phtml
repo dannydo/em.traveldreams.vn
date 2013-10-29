@@ -1,1 +1,299 @@
-<?php \Zend\Debug\Debug::dump($data); ?>
+<input type="hidden" value="<?php echo $data['Word']->WordId; ?>" name="wordId" />
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <label for="txtWord" class="col-lg-3 control-label">Word</label>
+            <div class="col-lg-7">
+                <input type="text" class="form-control input-lg" id="txtWord" name="txtWord" value="<?php echo $data['Word']->Word; ?>">
+            </div>
+        </div>
+
+        <!--<div class="form-group">
+            <label for="inputEmail1" class="col-lg-3 control-label">US, Male</label>
+            <div class="col-lg-9">
+                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-volume-up"></span></button>
+                <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEmail1" class="col-lg-3 control-label">Voice File</label>
+            <div class="col-lg-3 ">
+                <select class="form-control ">
+                    <option>US, Male</option>
+                    <option>US, Female</option>
+                </select>
+            </div>
+
+            <div class="col-lg-4 ">
+                <input type="file" class="form-control " id="inputEmail1">
+            </div>
+
+            <div class="col-lg-2">
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-open"></span> Upload</button>
+            </div>
+        </div>
+
+        <hr>
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-9">
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Voice</button>
+            </div>
+        </div>-->
+    </div>
+</div>
+
+<ul class="nav nav-tabs" id="myTab">
+    <li class="active"><a href="#en" id="tabEN">English (5/6)</a></li>
+    <li class=""><a href="#vn" id="tabVI">Vietnamese (3/6)</a></li>
+</ul>
+
+<br>
+<div class="tab-content">
+    <!-- tab EN content -->
+    <div class="tab-pane active" id="en">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="sentencesEN">
+                    <?php $nApprovedEN = 0; $nTotalEN=0; ?>
+                    <?php $i=1; foreach($data['SentenceEN'] as $sentence) : ?>
+                    <?php $nApprovedEN = $nApprovedEN + ($sentence->IsApproved) ? 1 : 0; ?>
+                    <div class="form-group" id="sentenceEN-<?php echo $i; ?>">
+                        <input type="hidden" name="id-sentencesEN[]" value="<?php echo $sentence->SentenceId; ?>">
+                        <label for="sentenceEN-<?php echo $i; ?>" class="col-lg-3 control-label">Sentence #<?php echo $i; ?></label>
+                        <div class="col-lg-7">
+                            <input type="text" name="content-sentencesEN[]" class="form-control" id="sentenceEN-<?php echo $i; ?>" value="<?php echo $sentence->Sentence; ?>">
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="button" class="btn <?php echo ($sentence->IsApproved) ? 'btn-success' : 'btn-default' ?>">
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button type="button" class="btn  btn-default" onclick="ajaxDeleteSentence(<?php echo $i; ?>)">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <?php $i++; endforeach; $nTotalEN=$i-1;?>
+                </div>
+
+                <!--<div class="form-group">
+                    <label for="inputEmail1" class="col-lg-3 control-label">US, Male</label>
+                    <div class="col-lg-9">
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-volume-up"></span></button>
+                        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail1" class="col-lg-3 control-label">Voice File</label>
+                    <div class="col-lg-3 ">
+                        <select class="form-control ">
+                            <option>US, Male</option>
+                            <option>US, Female</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4 ">
+                        <input type="file" class="form-control " id="inputEmail1">
+                    </div>
+
+                    <div class="col-lg-2">
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-open"></span> Upload</button>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-9">
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Voice</button>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-9">
+                <button type="button" onclick="addSentences()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Sentence</button>
+            </div>
+        </div>
+
+        <hr>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="meaningEN" class="col-lg-3 control-label">English Meaning</label>
+                    <div class="col-lg-7">
+                        <input type="hidden" value="<?php echo $data['MeaningEN']->MeaningId; ?>" name="id-meaningEN" />
+                        <textarea id="meaningEN" name="meaningEN" class="form-control"><?php echo $data['MeaningEN']->Meaning; ?></textarea>
+                    </div>
+                    <div class="col-lg-2">
+                        <button type="button" class="btn <?php echo ($data['MeaningEN']->IsApproved) ? 'btn-success' : 'btn-default' ?>">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                    </div>
+                    <?php
+                    $nApprovedEN = $nApprovedEN + ($data['MeaningEN']->IsApproved) ? 1 : 0;
+                    $nTotalEN++;
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end tab EN content -->
+
+    <!-- tab VI content -->
+    <div class="tab-pane" id="vn">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="sentencesVI">
+                <?php $nApprovedVI = 0; $nTotalVI=0; ?>
+                <?php $i=1; foreach($data['SentenceVI'] as $sentence) : ?>
+                <?php $nApprovedVI = $nApprovedVI + ($sentence->IsApproved) ? 1 : 0; ?>
+                    <div class="form-group" id="sentenceVI-<?php echo $i; ?>">
+                        <input type="hidden" name="id-sentencesVI[]" value="<?php echo $sentence->SentenceId; ?>">
+                        <label for="sentenceVI-<?php echo $i; ?>" class="col-lg-3 control-label">Sentence #<?php echo $i; ?></label>
+                        <div class="col-lg-7">
+                            <input type="text" name="content-sentencesVI[]" class="form-control" id="sentenceVI-<?php echo $i; ?>" value="<?php echo $sentence->Sentence; ?>">
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="button" class="btn <?php echo ($sentence->IsApproved) ? 'btn-success' : 'btn-default' ?>">
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button type="button" class="btn  btn-default" onclick="ajaxDeleteSentence(<?php echo $i; ?>)">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </div>
+                    </div>
+                <?php $i++; endforeach; $nTotalVI=$i-1;?>
+                </div>
+
+                <!--<div class="form-group">
+                    <label for="inputEmail1" class="col-lg-3 control-label">US, Male</label>
+                    <div class="col-lg-9">
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-volume-up"></span></button>
+                        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail1" class="col-lg-3 control-label">Voice File</label>
+                    <div class="col-lg-3 ">
+                        <select class="form-control ">
+                            <option>US, Male</option>
+                            <option>US, Female</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4 ">
+                        <input type="file" class="form-control " id="inputEmail1">
+                    </div>
+
+                    <div class="col-lg-2">
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-open"></span> Upload</button>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-9">
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Voice</button>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-9">
+                <button type="button" onclick="addSentences()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Sentence</button>
+            </div>
+        </div>
+
+        <hr>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="inputPassword1" class="col-lg-3 control-label">Vietnamese Meaning</label>
+                    <div class="col-lg-7">
+                        <input type="hidden" value="<?php echo $data['MeaningVI']->MeaningId; ?>" name="id-meaningVI" />
+                        <textarea name="meaningVI" id="meaningVI" class="form-control"><?php echo $data['MeaningVI']->Meaning; ?></textarea>
+                    </div>
+                    <div class="col-lg-2">
+                        <button type="button" class="btn <?php echo ($data['MeaningEN']->IsApproved) ? 'btn-success' : 'btn-default' ?>">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                    </div>
+                    <?php
+                    $nApprovedVI = $nApprovedVI + ($data['MeaningEN']->IsApproved) ? 1 : 0;
+                    $nTotalVI++;
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end tab VI content -->
+</div>
+
+<!-- save , clear button -->
+<div class="form-group">
+    <div class="col-lg-offset-3 col-lg-9">
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button> <button type="submit" class="btn btn-default">Clear</button>
+    </div>
+</div>
+
+
+<script>
+    $('#myTab a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    });
+
+    var nSentence = <?php echo $data['SentenceEN']->count(); ?>;
+    function addSentences() {
+        nSentence = nSentence + 1;
+        $html = '<div class="form-group" id="sentenceVI-' + nSentence +'">' +
+            '<input type="hidden" name="id-sentencesVI[]" value="">' +
+            '<label for="sentenceVI-' + nSentence + '" class="col-lg-3 control-label">Sentence #' + nSentence + '</label>' +
+            '<div class="col-lg-7">' +
+            '<input type="text" name="content-sentencesVI[]" class="form-control" id="sentenceVI-' + nSentence + '" value="">' +
+            '</div>' +
+            '<div class="col-lg-2">' +
+            '<button type="button" class="btn  btn-default" disabled="disabled"><span class="glyphicon glyphicon-ok"></span></button>' +
+            '<button type="button" onclick="deleteSentence(' + nSentence + ')" class="btn  btn-default "><span class="glyphicon glyphicon-remove"></span></button>' +
+            '</div>' +
+            '</div>';
+
+        $('#sentencesVI').append($html);
+
+        $html = '<div class="form-group" id="sentenceEN-' + nSentence +'">' +
+            '<input type="hidden" name="id-sentencesEN[]" value="">' +
+            '<label for="sentenceEN-' + nSentence + '" class="col-lg-3 control-label">Sentence #' + nSentence + '</label>' +
+            '<div class="col-lg-7">' +
+            '<input type="text" name="content-sentencesEN[]" class="form-control" id="sentenceEN-' + nSentence + '" value="">' +
+            '</div>' +
+            '<div class="col-lg-2">' +
+            '<button type="button" class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-ok"></span></button>' +
+            '<button type="button" onclick="deleteSentence(' + nSentence + ')" class="btn  btn-default "><span class="glyphicon glyphicon-remove"></span></button>' +
+            '</div>' +
+            '</div>';
+
+        $('#sentencesEN').append($html);
+    }
+
+    function deleteSentence(nSentence) {
+        $('#sentenceVI-' + nSentence).remove();
+        $('#sentenceEN-' + nSentence).remove();
+    }
+
+    function ajaxDeleteSentence(nSentence) {
+        if (confirm("Are you sure delete?")) {
+            $('#sentenceVI-' + nSentence).remove();
+            $('#sentenceEN-' + nSentence).remove();
+        }
+    }
+
+    $('#tabEN').html('English (<?php echo $nApprovedEN.'/'.$nTotalEN; ?>)');
+    $('#tabVI').html('Vietnamese (<?php echo $nApprovedVI.'/'.$nTotalVI; ?>)');
+</script>

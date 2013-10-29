@@ -36,30 +36,6 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'library' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:action]][/:status]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
-                    ),
-                    'word' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:action]][/:wordId]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
-                    ),
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
@@ -69,6 +45,62 @@ return array(
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ),
                             'defaults' => array(
+                            ),
+                        ),
+                    ),
+
+                    'library' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route' => '/library[/:action][/:status]',
+                            'constraints' => array(
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'library',
+                                'action'     => 'index',
+                            ),
+                        ),
+                    ),
+
+                    'word' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route' => '/word[/:action][/:wordId]',
+                            'constraints' => array(
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'word',
+                                'action'     => 'index',
+                            ),
+                        ),
+                    ),
+
+                    'meaning' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route' => '/meaning[/:action][/:meaningId][/:isApproved]',
+                            'constraints' => array(
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'meaning',
+                                'action'     => 'index',
+                            ),
+                        ),
+                    ),
+
+                    'sentence' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route' => '/sentence[/:action][/:sentenceId][/:isApproved]',
+                            'constraints' => array(
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'sentence',
+                                'action'     => 'index',
                             ),
                         ),
                     ),
@@ -100,6 +132,8 @@ return array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Library' => 'Application\Controller\LibraryController',
             'Application\Controller\Word' => 'Application\Controller\WordController',
+            'Application\Controller\Sentence' => 'Application\Controller\SentenceController',
+            'Application\Controller\Meaning' => 'Application\Controller\MeaningController',
         ),
     ),
     'view_manager' => array(

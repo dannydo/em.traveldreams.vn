@@ -42,4 +42,20 @@ class SentenceTable extends AbstractTableGateway {
 
         return $this->selectWith($select);
     }
+
+    public function editSentence($data) {
+        $now = new \DateTime();
+        $data['UpdatedDate'] = $now->format('Y-m-d h:m:s');
+        $this->update($data, array('SentenceId' => $data['SentenceId']));
+    }
+
+    public function addSentence($data) {
+        $now = new \DateTime();
+        $data['CreatedDate'] = $now->format('Y-m-d h:m:s');
+        if($this->insert($data)) {
+            return $this->lastInsertValue;
+        }
+
+        return 0;
+    }
 } 

@@ -8,7 +8,20 @@
 
 namespace Application\Controller;
 
+use Zend\Mvc\Controller\AbstractActionController;
 
-class SentenceController {
+class SentenceController extends AbstractActionController
+{
 
-} 
+    public function indexAction() {
+        return $this->redirect()->toRoute('application/default', array('controller' => 'index', 'action' => 'index'));
+    }
+
+    public function deleteAction() {
+        die('successful');
+    }
+
+    public function approveAction() {
+        die('successful');
+    }
+}

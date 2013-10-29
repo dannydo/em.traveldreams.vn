@@ -34,10 +34,12 @@ class MeaningTable extends AbstractTableGateway {
      * @return null|\Zend\Db\ResultSet\ResultSetInterface
      */
     public function getListMeaning($wordId, $languageId) {
-        $select = new Select();
-        $select->from($this->table)
-            ->where(array('WordId' => $wordId, 'LanguageId' => $languageId));
+        return $this->select(array('WordId' => $wordId, 'LanguageId' => $languageId))->current();
+    }
 
-        return $this->selectWith($select);
+    public function editMeaning($data) {
+        $now = new \DateTime();
+        $data['UpdatedDate'] = $now->format('Y-m-d h:m:s');
+        $this->update($data, array('MeaningId' => $data['MeaningId']));
     }
 } 

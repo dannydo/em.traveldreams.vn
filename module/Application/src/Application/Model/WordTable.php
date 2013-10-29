@@ -59,4 +59,10 @@ class WordTable extends AbstractTableGateway {
     public function getWordByWordId($wordId) {
         return $this->select(array('WordId' => $wordId))->current();
     }
+
+    public function editWord($data) {
+        $now = new \DateTime();
+        $data['UpdatedDate'] = $now->format('Y-m-d h:m:s');
+        $this->update($data, array('WordId' => $data['WordId']));
+    }
 } 
