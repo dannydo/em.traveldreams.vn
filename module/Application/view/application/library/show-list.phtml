@@ -38,9 +38,10 @@
     });
 
     $('.word-list-item').click(function() {
+        var wordId=$(this).attr('id');
         $('body').showLoading( {
             'afterShow': function() {
-                $.ajax({url:"/word/get-word/1",success:function(result){
+                $.ajax({url:"/word/get-word/"+wordId,success:function(result){
                     $("#content-word").html(result);
                     $('body').hideLoading();
                 }});
