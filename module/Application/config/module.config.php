@@ -52,7 +52,7 @@ return array(
                     'library' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route' => '/library[/:action][/:status]',
+                            'route' => '/library[/:action][/:status][/:wordId]',
                             'constraints' => array(
                                 'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ),

@@ -23,7 +23,9 @@
 </div>
 
     <div class="col-xs-12 col-sm-12 col-md-8">
+        <div class="error-message"></div>
         <form class="form-horizontal" role="form" method="post" action="/word/get-word" id="content-word">
+
         </form>
     </div>
     <!--/span-->
@@ -51,19 +53,41 @@
 
     $(function () {
         $('form').bind('submit', function () {
-            $('body').showLoading( {
-                'afterShow': function() {
-                    $.ajax({
-                        type: 'post',
-                        url: '/word/get-word',
-                        data: $('form').serialize(),
-                        success: function (result) {
-                            $("#content-word").html(result);
-                            $('body').hideLoading();
-                        }
-                    });
+            var word = $('#txtWord').val();
+            var enMeaning = $('#meaningEN').val();
+            var checkForm = true;
+
+            $("#txtWord").parent().parent(".form-group").removeClass('has-error');
+            $("#meaningEN").parent().parent(".form-group").removeClass('has-error');
+
+            if((word == null) || (word == '')) {
+                $(".error-message").html('<div class="alert alert-danger">Please add a word!</div>');
+                $("#txtWord").parent().parent(".form-group").addClass('has-error');
+                checkForm = false;
+            } else {
+                if((enMeaning==null || enMeaning == '')){
+                    $(".error-message").html('<div class="alert alert-danger">Please add English meaning!</div>');
+                    $("#meaningEN").parent().parent(".form-group").addClass('has-error');
+                    checkForm = false;
                 }
-            });
+            }
+
+            if (checkForm) {
+                $(".error-message").html('');
+                $('body').showLoading( {
+                    'afterShow': function() {
+                        $.ajax({
+                            type: 'post',
+                            url: '/word/get-word',
+                            data: $('form').serialize(),
+                            success: function (result) {
+                                $("#content-word").html(result);
+                                $('body').hideLoading();
+                            }
+                        });
+                    }
+                });
+            }
             return false;
         });
     });

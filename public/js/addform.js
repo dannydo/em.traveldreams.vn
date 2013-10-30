@@ -15,7 +15,7 @@ function checkExistWord(){
                 str += "<li>";
                 str += "<b>" + value.word + ": </b>";
                 str += "<i>" +  value.meaning + " </i>";
-                str += "<button type='button' class='btn  btn-default btn-sm'>";
+                str += "<button type='button' class='btn btn-default btn-sm'>";
                 str += "<span class='glyphicon glyphicon-pencil'></span>";
                 str += "</button></li>";
             });
