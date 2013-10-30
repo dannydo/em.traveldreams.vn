@@ -1,1 +1,14 @@
 Welcome to English Media. It will be finished in this week.
+
+<input type="text" value="Amsterdam,Washington" id="tags"/>
+
+<script>
+    $('#tags').tagsinput();
+
+    $('#tags').tagsinput('input').typeahead({
+        local: ['Amsterdam', 'Washington', 'Sydney', 'Beijing', 'Cairo']
+    }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+            this.tagsinput('add', datum.value);
+            this.tagsinput('input').typeahead('setQuery', '');
+        }, $('#tags')));
+</script>

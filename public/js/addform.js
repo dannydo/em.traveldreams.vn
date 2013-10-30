@@ -67,6 +67,7 @@ window.onload = function() {
     $(".btn-addWord").click(function(e){
         var word = $('#word').val();
         var enMeaning = $('#en-meaning').val();
+
         //var viMeaning = $('#vi-meaning').val();
 
         if((word == null) || (word == '')) {

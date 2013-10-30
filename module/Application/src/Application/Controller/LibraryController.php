@@ -9,8 +9,6 @@
 namespace Application\Controller;
 
 use Application\Model\LanguageTable;
-use Application\Model\MeaningTable;
-use Application\Model\SentenceTable;
 use Application\Model\WordTable;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -21,13 +19,11 @@ class LibraryController extends AbstractActionController
     protected $wordTable;
     protected $languageTable;
 
-    public function indexAction()
-    {
-        return $this->redirect()->toRoute('application/default', array('controller' => 'library', 'action' => 'show-list'));
+    public function indexAction() {
+        return $this->redirect()->toRoute('application/library', array('controller' => 'library', 'action' => 'show-list', 'status'=>'NEED CONTENT'));
     }
 
-    public function showListAction()
-    {
+    public function showListAction() {
         $status = strtoupper($this->params()->fromRoute('status', ''));
         $this->wordTable = new WordTable();
         $this->languageTable = new LanguageTable();

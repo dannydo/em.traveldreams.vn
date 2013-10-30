@@ -61,10 +61,23 @@ class WordTable extends AbstractTableGateway {
     }
 
     /**
+     * Update word
+     *
+     * @param $data
+     * @return int
+     */
+    public function editWord($data) {
+        $now = new \DateTime();
+        $data['UpdatedDate'] = $now->format('Y-m-d h:m:s');
+        $data['UpdatedBy'] = 1;
+        return $this->update($data, array('WordId' => $data['WordId']));
+    }
+
+    /**
      * Add new word
      *
      * @param $word
-     * @param $isToiec
+     * @param $isToeic
      * @return mixed
      */
     public function addNewWord($word, $isToeic)
@@ -83,6 +96,13 @@ class WordTable extends AbstractTableGateway {
         return $this->insert($data)? $this->lastInsertValue : false;
     }
 
+    /**
+     * get words by word
+     *
+     * @param $word
+     * @param int $languageId
+     * @return null|\Zend\Db\ResultSet\ResultSetInterface
+     */
     public function getWordsByWord($word, $languageId = 1){
         $select = new Select();
         $select->from($this->table)
@@ -90,7 +110,5 @@ class WordTable extends AbstractTableGateway {
             ->where(array('Word' => $word, 'LanguageId' => $languageId, 'IsActive' => 1));
 
         return $this->selectWith($select);
-
     }
-
 } 
