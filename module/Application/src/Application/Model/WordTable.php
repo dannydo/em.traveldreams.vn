@@ -111,4 +111,33 @@ class WordTable extends AbstractTableGateway {
 
         return $this->selectWith($select);
     }
+
+    public function addTagsForWord($arrTagName, $wordId) {
+
+        $tagTable = new TagTable();
+        $wordTagTable = new WordTagTable();
+
+        foreach($arrTagName as $tagName) {
+            $data['TagId'] = $tagTable->saveTags($tagName);
+            $data['WordId'] = $wordId;
+
+            if ($data['TagId']) {
+                $wordTagTable->addWordTag($data);
+            }
+        }
+
+        $arrTagNameOld = $wordTagTable->getAllTagForWord($wordId);
+        foreach($arrTagNameOld as $tagOld) {
+            $isDelete = true;
+            foreach($arrTagName as $tagName) {
+                if ($tagOld->TagName == $tagName) {
+                    $isDelete = false;
+                    break;
+                }
+            }
+            if($isDelete) {
+                $wordTagTable->deleteWordTag($tagOld->WordTagId);
+            }
+        }
+    }
 } 

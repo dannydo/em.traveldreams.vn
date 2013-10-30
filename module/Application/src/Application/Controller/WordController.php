@@ -11,7 +11,9 @@ namespace Application\Controller;
 use Application\Model\LanguageTable;
 use Application\Model\MeaningTable;
 use Application\Model\SentenceTable;
+use Application\Model\TagTable;
 use Application\Model\WordTable;
+use Application\Model\WordTagTable;
 use Zend\Debug\Debug;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -23,6 +25,7 @@ class WordController extends AbstractActionController
     protected $languageTable;
     protected $meaningTable;
     protected $sentenceTable;
+    protected $wordTagTable;
 
     public function indexAction() {
         return $this->redirect()->toRoute('application/default', array('controller' => 'index', 'action' => 'index'));
@@ -35,6 +38,7 @@ class WordController extends AbstractActionController
         $this->wordTable = new WordTable();
         $this->meaningTable = new MeaningTable();
         $this->sentenceTable = new SentenceTable();
+        $this->wordTagTable = new WordTagTable();
 
         // update and insert data
         $request = $this->getRequest();
@@ -47,6 +51,10 @@ class WordController extends AbstractActionController
             $word['Word'] = $dataPost['txtWord'];
             $word['IsToeic'] = (isset($dataPost['isToeic']) ? 1 : 0);
             $this->wordTable->editWord($word);
+
+            // Add tag for word
+            $arrTag = mb_split(',', $dataPost['txtTags']);
+            $this->wordTable->addTagsForWord($arrTag, $wordId);
 
             // Update meaning for word
             $meaning['MeaningId'] = $dataPost['id-meaningEN'];
@@ -94,7 +102,7 @@ class WordController extends AbstractActionController
         $data['SentenceVI'] = $this->sentenceTable->getListSentence($wordId, $this->languageTable->arrLanguage['VI']);
         $data['MeaningEN'] = $this->meaningTable->getListMeaning($wordId, $this->languageTable->arrLanguage['EN']);
         $data['MeaningVI'] = $this->meaningTable->getListMeaning($wordId, $this->languageTable->arrLanguage['VI']);
-
+        $data['TagName'] = $this->wordTagTable->getAllTagNameForWord($wordId);
         $view = new ViewModel(
             array(
                 'data' => $data,
