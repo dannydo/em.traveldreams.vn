@@ -134,7 +134,8 @@ return array(
             'Application\Controller\Word' => 'Application\Controller\WordController',
             'Application\Controller\Sentence' => 'Application\Controller\SentenceController',
             'Application\Controller\Meaning' => 'Application\Controller\MeaningController',
-            'Application\Controller\AddWord' => 'Application\Controller\AddWordController'
+            'Application\Controller\AddWord' => 'Application\Controller\AddWordController',
+            'Application\Controller\Tag' => 'Application\Controller\TagController'
         ),
     ),
     'view_manager' => array(

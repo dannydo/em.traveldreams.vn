@@ -266,19 +266,28 @@
 
 
 <script>
-    $('#myTab a').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-    });
-
     var nApprovedEN = <?php echo $nApprovedEN; ?>;
     var nTotalEN = <?php echo $nTotalEN; ?>;
     var nApprovedVI = <?php echo $nApprovedVI; ?>;
     var nTotalVI = <?php echo $nTotalVI; ?>;
     var nSentence = <?php echo $data['SentenceEN']->count(); ?>;
 
+    $('#myTab a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    });
+
     $('#tabEN').html('English (' + nApprovedEN + '/' + nTotalEN + ')');
     $('#tabVI').html('Vietnamese (' + nApprovedVI + '/' + nTotalVI + ')');
+
+    $('#txtTags').tagsinput();
+
+    $('#txtTags').tagsinput('input').typeahead({
+        prefetch: '/tag/get-tags'
+    }).bind('typeahead:selected', $.proxy(function (obj, datum) {
+            this.tagsinput('add', datum.value);
+            this.tagsinput('input').typeahead('setQuery', '');
+        }, $('#txtTags')));
 
     function addSentences() {
         nSentence = nSentence + 1;
