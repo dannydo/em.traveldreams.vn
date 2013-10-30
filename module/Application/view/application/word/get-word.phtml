@@ -7,6 +7,18 @@
                 <input type="text" class="form-control input-lg" id="txtWord" name="txtWord" value="<?php echo $data['Word']->Word; ?>">
             </div>
         </div>
+        <div class="form-group">
+            <label for="txtTags" class="col-lg-3 control-label">Tags</label>
+            <div class="col-lg-7">
+                <input type="text" class="form-control" id="txtTags" name="txtTags" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="isToeic" class="col-lg-3 control-label">TOEIC Word</label>
+            <div class="col-lg-7">
+                <input type="checkbox" id="isToeic" name="isToeic" <?php echo ($data['Word']->IsToeic)? 'checked="true"' : ''; ?>>
+            </div>
+        </div>
 
         <!--<div class="form-group">
             <label for="inputEmail1" class="col-lg-3 control-label">US, Male</label>

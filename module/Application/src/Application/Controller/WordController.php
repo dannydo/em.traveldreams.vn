@@ -45,6 +45,7 @@ class WordController extends AbstractActionController
             $wordId = $dataPost['wordId'];
             $word['WordId'] = $dataPost['wordId'];
             $word['Word'] = $dataPost['txtWord'];
+            $word['IsToeic'] = (isset($dataPost['isToeic']) ? 1 : 0);
             $this->wordTable->editWord($word);
 
             // Update meaning for word
