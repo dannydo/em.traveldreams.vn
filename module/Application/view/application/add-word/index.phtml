@@ -1,14 +1,19 @@
+<?php echo $this->headScript()->appendFile($this->basePath() . '/js/typeahead.js')?>
 <?php echo $this->headScript()->appendFile($this->basePath() . '/js/addform.js')?>
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2">
-        <form class="form-horizontal" method="post" action="">
+        <form class="form-horizontal" method="post" action="" id="add-word-form">
+            <div class="error-message">
+
+            </div>
+
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-group">
                         <label for="word" class="col-lg-3 control-label">Word</label>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control input-lg" id="word" name="word"
+                            <input type="text" class="form-control input-lg" id="word" name="word" autocomplete="off"
                                    placeholder="Please input your word" onchange="checkExistWord()">
                         </div>
                     </div>
@@ -123,7 +128,7 @@
             <!-- save , clear button -->
             <div class="form-group">
                 <div class="col-lg-offset-3 col-lg-9">
-                    <button type="submit" class="btn btn-primary btn-addWord">
+                    <button type="button" class="btn btn-primary btn-addWord">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         Add
                     </button>

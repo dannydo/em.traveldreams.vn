@@ -58,11 +58,32 @@ window.onload = function() {
         addSentence(++nSentences)
     });
 
+//    $('#word').typeahead({
+//        local: ['alpha','allpha2','alpha3','bravo','charlie','delta','epsilon','gamma','zulu']
+//    });
+
+//    $('.tt-query').css('background-color','#fff');
+
     $(".btn-addWord").click(function(e){
         var word = $('#word').val();
         var enMeaning = $('#en-meaning').val();
-        var viMeaning = $('#vi-meaning').val();
 
+        //var viMeaning = $('#vi-meaning').val();
+
+        if((word == null) || (word == '')) {
+            $(".error-message").html('<div class="alert alert-danger">Please add a word!</div>');
+            $("#word").parent().parent(".form-group").addClass('has-error');
+            return false;
+        }else{
+            if((enMeaning==null || enMeaning == '')){
+                $(".error-message").html('<div class="alert alert-danger">Please add English meaning!</div>');
+                $("#en-meaning").parent().parent(".form-group").addClass('has-error');
+                return false;
+            }
+        }
+
+        $("#add-word-form").submit();
+        return true;
     });
 
     $(document).on('click', ".del-sentence", function(){
