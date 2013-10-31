@@ -15,16 +15,11 @@ RewriteCond %{REQUEST_URI}::$1 ^(/.+)(.+)::\2$
 RewriteRule ^(.*) - [E=BASE:%1]
 RewriteRule ^(.*)$ %{ENV:BASE}index.php [NC,L]
 
-#AuthName "Add your login message here."
-#AuthType Basic
-#      AuthUserFile /.htpasswd
-#      require valid-user
+SetEnvIf HOST "^em.kiss-concept.com" live_url
+AuthName "English Media - Login."
+AuthType Basic
+      AuthUserFile /home/web/sites/em.traveldreams.vn/public/.htpasswd
+      require valid-user
 
-SetEnvIf HTTP_HOST em.kiss-concept.com AUTHENTICATION
-<IfDefine AUTHENTICATION>
-  Allow from all
-  AuthType Basic
-  AuthName "English Media - Login" 
-  AuthUserFile /home/web/sites/em.traveldreams.vn/public/.htpasswd
-  require valid-user
-</IfDefine>
+Deny from env=live_url
+Satisfy any
