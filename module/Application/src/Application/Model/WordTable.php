@@ -41,7 +41,8 @@ class WordTable extends AbstractTableGateway {
         $select = new Select();
         $select->from($this->table)
             ->join('Meanings', 'Words.WordId = Meanings.WordId')
-            ->where(array('Status' => $status, 'LanguageId' => $languageId, 'IsActive' => 1));
+            ->where(array('Status' => $status, 'LanguageId' => $languageId, 'IsActive' => 1))
+            ->order('Word ASC');
 
         return $this->selectWith($select);
     }
@@ -175,6 +176,7 @@ class WordTable extends AbstractTableGateway {
 
     function autoCheckAndUpdateStatusWord($dataWord, $dataSentenceEN, $dataSentenceVI, $dataMeaningEN, $dataMeaningVI) {
         $isNeedContent = false;
+        $isWaitingApproveContent = false;
         $status = $this->arrStatus['1'];
 
         if (is_null($dataWord->Word) ||$dataWord->Word == '') {
@@ -187,6 +189,9 @@ class WordTable extends AbstractTableGateway {
                     $isNeedContent = true;
                     break;
                 }
+                else if ($sentence->IsApproved == 0) {
+                    $isWaitingApproveContent = true;
+                }
             }
         }
 
@@ -196,19 +201,35 @@ class WordTable extends AbstractTableGateway {
                     $isNeedContent = true;
                     break;
                 }
+                else if ($sentence->IsApproved == 0) {
+                    $isWaitingApproveContent = true;
+                }
             }
         }
 
         if ($isNeedContent == false) {
-            if (is_null($dataMeaningEN->Meaning) || $dataMeaningEN->Meaning == '') $isNeedContent = true;
+            if (is_null($dataMeaningEN->Meaning) || $dataMeaningEN->Meaning == '') {
+                $isNeedContent = true;
+            }
+            else if ($dataMeaningEN->IsApproved == 0) {
+                $isWaitingApproveContent = true;
+            }
         }
 
         if ($isNeedContent == false) {
-            if (is_null($dataMeaningVI->Meaning) || $dataMeaningVI->Meaning == '')  $isNeedContent = true;
+            if (is_null($dataMeaningVI->Meaning) || $dataMeaningVI->Meaning == '') {
+                $isNeedContent = true;
+            }
+            else if ($dataMeaningEN->IsApproved == 0) {
+                $isWaitingApproveContent = true;
+            }
         }
 
         if (!$isNeedContent) {
             $status = $this->arrStatus['2'];
+            if (!$isWaitingApproveContent) {
+                $status = $this->arrStatus['3'];
+            }
         }
 
         $this->update(array('Status' => $status), array('WordId' => $dataWord->WordId));

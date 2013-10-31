@@ -8,12 +8,7 @@
             <?php foreach($words as $word) : ?>
                 <li class="word-list-item" id="<?php echo $word->WordId; ?>"><a><b class="word-item-heading"><?php echo $word->Word; ?></b>
                         <br>
-                    <?php
-                        $detail = strip_tags($word->Meaning);
-                        $pos = (strlen($detail) > 30) ? strpos($detail, ' ', 30) : 30;
-                        $pos = ($pos) ? $pos : 30;
-                        echo substr($detail, 0, $pos).'...';
-                    ?>
+                    <span><?php echo substr($word->Meaning, 0, 25).'...'; ?></span>
                     </a>
                 </li>
             <?php endforeach; ?>
@@ -86,6 +81,8 @@
                             success: function (result) {
                                 $("#content-word").html(result);
                                 $('body').hideLoading();
+                                $('li.active.word-list-item').find('b').first().html($("#txtWord").val());
+                                $('li.active.word-list-item').find('span').first().html($("#meaningEN").val().substring(0, 25) + '...');
                             }
                         });
                     }
