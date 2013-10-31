@@ -14,3 +14,16 @@ RewriteRule ^.*$ - [NC,L]
 RewriteCond %{REQUEST_URI}::$1 ^(/.+)(.+)::\2$
 RewriteRule ^(.*) - [E=BASE:%1]
 RewriteRule ^(.*)$ %{ENV:BASE}index.php [NC,L]
+
+#AuthName "Add your login message here."
+#AuthType Basic
+#      AuthUserFile /.htpasswd
+#      require valid-user
+
+<IfDefine live>
+  Allow from all
+  AuthType Basic
+  AuthName "English Media - Login" 
+  AuthUserFile /home/web/sites/em.traveldreams.vn/public/.htpasswd
+  require valid-user
+</IfDefine>
