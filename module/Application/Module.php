@@ -9,9 +9,11 @@
 
 namespace Application;
 
+use Composer\Console\Application;
 use Zend\Db\TableGateway\Feature\GlobalAdapterFeature;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Application\View\MyHelper;
 
 class Module
 {
@@ -24,6 +26,10 @@ class Module
         $serviceManager = $e->getApplication()->getServiceManager();
         $dbAdapter = $serviceManager->get('db_english_media');
         GlobalAdapterFeature::setStaticAdapter($dbAdapter);
+
+        $serviceManager->get('viewhelpermanager')->setFactory('myViewHelper', function($sm) use ($e) {
+            return new MyHelper($e->getRouteMatch());
+        });
     }
 
     public function getConfig()

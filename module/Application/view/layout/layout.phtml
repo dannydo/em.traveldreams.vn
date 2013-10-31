@@ -36,17 +36,29 @@
 <!-- HEADER MENU -->
 <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
     <div class="container">
+        <?php $params = $this->myViewHelper()->getAllParams(); ?>
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
             <a class="navbar-brand" href="/">Travel Dream</a> </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="<?php echo $this->url('application/default', array('controller'=>'add-word'));?>"><span class="glyphicon glyphicon-plus-sign"></span> Add Word</a></li>
-                <li><a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'NEED CONTENT'));?>"><span class="glyphicon glyphicon-remove-circle"></span> Need Content</a></li>
-                <li><a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'WAITING APPROVE CONTENT'));?>"><span class="glyphicon glyphicon-time"></span> Waiting Approve Content</a></li>
-                <li><a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'NEED SOUND'));?>"><span class="glyphicon glyphicon-headphones"></span> Need Sound</a></li>
-                <li><a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'WAITING APPROVE SOUND'));?>"><span class="glyphicon glyphicon-import"></span> Waiting Approve Sound</a></li>
-                <li><a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'COMPLETED'));?>"><span class="glyphicon glyphicon-ok"></span> Completed</a></li>
+                <li class="<?php echo ($params['controller'] == 'Application\Controller\AddWord' && strtolower($params['action']) == 'index')  ? 'active' : ''; ?>">
+                    <a href="<?php echo $this->url('application/default', array('controller'=>'add-word'));?>">
+                        <span class="glyphicon glyphicon-plus-sign"></span> Add Word</a></li>
+                <li class="<?php echo ($params['controller'] == 'Application\Controller\Library' && strtolower($params['action']) == 'show-list' && strtoupper($params['status']) == 'NEED CONTENT')  ? 'active' : ''; ?>">
+                    <a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'NEED CONTENT'));?>">
+                        <span class="glyphicon glyphicon-remove-circle"></span> Need Content</a></li>
+                <li class="<?php echo ($params['controller'] == 'Application\Controller\Library' && strtolower($params['action']) == 'show-list' && strtoupper($params['status']) == 'WAITING APPROVE CONTENT')  ? 'active' : ''; ?>">
+                    <a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'WAITING APPROVE CONTENT'));?>">
+                        <span class="glyphicon glyphicon-time"></span> Waiting Approve Content</a></li>
+                <li class="<?php echo ($params['controller'] == 'Application\Controller\Library' && strtolower($params['action']) == 'show-list' && strtoupper($params['status']) == 'NEED SOUND')  ? 'active' : ''; ?>">
+                    <a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'NEED SOUND'));?>">
+                        <span class="glyphicon glyphicon-headphones"></span> Need Sound</a></li>
+                <li class="<?php echo ($params['controller'] == 'Application\Controller\Library' && strtolower($params['action']) == 'show-list' && strtoupper($params['status']) == 'WAITING APPROVE SOUND')  ? 'active' : ''; ?>">
+                    <a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'WAITING APPROVE SOUND'));?>">
+                        <span class="glyphicon glyphicon-import"></span> Waiting Approve Sound</a></li>
+                <li class="<?php echo ($params['controller'] == 'Application\Controller\Library' && strtolower($params['action']) == 'show-list' && strtoupper($params['status']) == 'COMPLETED')  ? 'active' : ''; ?>">
+                    <a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'COMPLETED'));?>">
+                        <span class="glyphicon glyphicon-ok"></span> Completed</a></li>
             </ul>
         </div>
         <!-- /.nav-collapse -->
