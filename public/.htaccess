@@ -14,3 +14,12 @@ RewriteRule ^.*$ - [NC,L]
 RewriteCond %{REQUEST_URI}::$1 ^(/.+)(.+)::\2$
 RewriteRule ^(.*) - [E=BASE:%1]
 RewriteRule ^(.*)$ %{ENV:BASE}index.php [NC,L]
+
+SetEnvIf HOST "^em.kiss-concept.com" live_url
+AuthName "English Media - Login."
+AuthType Basic
+      AuthUserFile /home/web/sites/em.traveldreams.vn/public/.htpasswd
+      require valid-user
+
+Deny from env=live_url
+Satisfy any
