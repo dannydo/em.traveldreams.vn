@@ -20,7 +20,8 @@ RewriteRule ^(.*)$ %{ENV:BASE}index.php [NC,L]
 #      AuthUserFile /.htpasswd
 #      require valid-user
 
-<IfDefine live>
+SetEnvIf HTTP_HOST em.kiss-concept.com AUTHENTICATION
+<IfDefine AUTHENTICATION>
   Allow from all
   AuthType Basic
   AuthName "English Media - Login" 
