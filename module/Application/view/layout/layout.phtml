@@ -38,9 +38,10 @@
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-            <a class="navbar-brand" href="#">Travel Dream</a> </div>
+            <a class="navbar-brand" href="/">Travel Dream</a> </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
+                <li><a href="<?php echo $this->url('application/default', array('controller'=>'add-word'));?>"><span class="glyphicon glyphicon-plus-sign"></span> Add Word</a></li>
                 <li><a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'NEED CONTENT'));?>"><span class="glyphicon glyphicon-remove-circle"></span> Need Content</a></li>
                 <li><a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'WAITING APPROVE CONTENT'));?>"><span class="glyphicon glyphicon-time"></span> Waiting Approve Content</a></li>
                 <li><a href="<?php echo $this->url('application/library', array('action'=>'show-list', 'status' => 'NEED SOUND'));?>"><span class="glyphicon glyphicon-headphones"></span> Need Sound</a></li>
