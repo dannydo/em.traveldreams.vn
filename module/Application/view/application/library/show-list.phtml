@@ -41,6 +41,7 @@
 
     $('.word-list-item').click(function() {
         var wordId=$(this).attr('id');
+        $(".error-message").html('');
         $('body').showLoading( {
             'afterShow': function() {
                 $.ajax({url:"/word/get-word/"+wordId,success:function(result){

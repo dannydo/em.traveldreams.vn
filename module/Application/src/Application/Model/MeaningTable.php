@@ -84,13 +84,20 @@ class MeaningTable extends AbstractTableGateway {
     /**
      * Update meaning
      *
-     * @param $data
+     * @param $meaningId
+     * @param $meaning
+     * @param $isApproved
      * @return int
      */
-    public function editMeaning($data) {
+    public function editMeaning($meaningId, $meaning, $isApproved) {
         $now = new \DateTime();
+
+        $data['MeaningId'] = $meaningId;
+        $data['Meaning'] = $meaning;
+        $data['IsApproved'] = $isApproved;
         $data['UpdatedDate'] = $now->format('Y-m-d h:m:s');
         $data['UpdatedBy'] = 1;
+
         return $this->update($data, array('MeaningId' => $data['MeaningId']));
     }
 } 

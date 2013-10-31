@@ -33,6 +33,6 @@ class Meaning {
         $this->UpdatedBy  = (!empty($data['UpdatedBy'])) ? $data['UpdatedBy'] : null;
         $this->UpdatedDate  = (!empty($data['UpdatedDate'])) ? $data['UpdatedDate'] : null;
         $this->ApprovedBy  = (!empty($data['ApprovedBy'])) ? $data['ApprovedBy'] : null;
-        $this->IsApproved  = (!empty($data['IsApproved'])) ? $data['IsApproved'] : null;
+        $this->IsApproved  = (!empty($data['IsApproved'])) ? $data['IsApproved'] : 0;
     }
 } 

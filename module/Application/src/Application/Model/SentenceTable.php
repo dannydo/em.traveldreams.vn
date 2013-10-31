@@ -31,9 +31,10 @@ class SentenceTable extends AbstractTableGateway {
      * @param $wordId
      * @param $sentence
      * @param $order
+     * @param $isApproved
      * @return int
      */
-    public function addEnSentenceForWord($wordId, $sentence, $order){
+    public function addEnSentenceForWord($wordId, $sentence, $order, $isApproved = 0){
         $now = new \DateTime();
         $data = array(
             'wordId' => $wordId,
@@ -46,7 +47,7 @@ class SentenceTable extends AbstractTableGateway {
             'updatedBy' => 1,
             'updatedDate' => $now->format('Y-m-d h::s'),
             'isActive' => 1,
-            'isApproved' => 0
+            'isApproved' => $isApproved
         );
 
         return $this->insert($data)? $this->lastInsertValue : false;
@@ -57,9 +58,10 @@ class SentenceTable extends AbstractTableGateway {
      * @param $parentSentenceId
      * @param $sentence
      * @param $order
+     * @param $isApproved
      * @return int
      */
-    public function addViSentenceForWord($wordId, $parentSentenceId, $sentence, $order){
+    public function addViSentenceForWord($wordId, $parentSentenceId, $sentence, $order, $isApproved = 0){
         $now = new \DateTime();
         $data = array(
             'WordId' => $wordId,
@@ -72,7 +74,7 @@ class SentenceTable extends AbstractTableGateway {
             'UpdatedBy' => 1,
             'UpdatedDate' => $now->format('Y-m-d h::s'),
             'IsActive' => 1,
-            'IsApproved' => 0
+            'IsApproved' => $isApproved
         );
 
         return $this->insert($data)? $this->lastInsertValue : false;
@@ -97,32 +99,21 @@ class SentenceTable extends AbstractTableGateway {
     /**
      * Update sentence
      *
-     * @param $data
+     * @param $sentenceId
+     * @param $sentence
+     * @param $order
+     * @param $isApproved
      * @return int
      */
-    public function editSentence($data) {
+    public function editSentence($sentenceId, $sentence, $order, $isApproved) {
         $now = new \DateTime();
+        $data['SentenceId'] =$sentenceId;
+        $data['Sentence'] = $sentence;
+        $data['Order'] = $order;
+        $data['IsApproved'] = $isApproved;
         $data['UpdatedDate'] = $now->format('Y-m-d h:m:s');
         $data['UpdatedBy'] = 1;
         return $this->update($data, array('SentenceId' => $data['SentenceId']));
-    }
-
-    /**
-     * Add sentence
-     *
-     * @param array $data
-     * @return int
-     */
-    public function addSentence($data) {
-        $now = new \DateTime();
-        $data['CreatedDate'] = $now->format('Y-m-d h:m:s');
-        $data['CreatedBy'] = 1;
-        $data['IsActive'] = 1;
-        if($this->insert($data)) {
-            return $this->lastInsertValue;
-        }
-
-        return 0;
     }
 
     /**

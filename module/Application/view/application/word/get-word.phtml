@@ -67,6 +67,7 @@
     <div class="tab-pane active" id="en">
         <div class="panel panel-default">
             <div class="panel-body">
+                <input type="hidden" name="txtDeleteSentence" id="delete-sentence" value="">
                 <div id="sentencesEN">
                     <?php $nApprovedEN = 0; $nTotalEN = 0; ?>
                     <?php $i=1; foreach($data['SentenceEN'] as $sentence) : ?>
@@ -75,15 +76,16 @@
                         <input type="hidden" name="id-sentencesEN[]" value="<?php echo $sentence->SentenceId; ?>">
                         <label for="sentenceEN-<?php echo $i; ?>" class="col-lg-3 control-label">Sentence #<?php echo $i; ?></label>
                         <div class="col-lg-7">
-                            <input type="text" name="content-sentencesEN[]" class="form-control" id="sentenceEN-<?php echo $i; ?>" value="<?php echo $sentence->Sentence; ?>">
+                            <input type="text" name="content-sentencesEN[]" class="form-control" id="sentenceEN-<?php echo $i; ?>" value="<?php echo $sentence->Sentence; ?>" <?php echo ($sentence->IsApproved) ? 'readonly="readonly"' : '';?>>
+                            <input type="hidden" name="approve-sentenceEN[]" id="approveSentenceEN-<?php echo $i; ?>" value="<?php echo $sentence->IsApproved; ?>">
                         </div>
                         <div class="col-lg-2">
                             <button type="button" class="btn <?php echo ($sentence->IsApproved) ? 'btn-success' : 'btn-default' ?>"
-                                    onclick="approveSentence(<?php echo $sentence->SentenceId; ?>, 'EN')" id="btnSentence<?php echo $sentence->SentenceId; ?>">
+                                    onclick="approveSentence(<?php echo $i; ?>, 'EN')" id="btnSentenceEN<?php echo $i; ?>">
                                 <span class="glyphicon glyphicon-ok"></span>
                             </button>
                             <?php if($i > 1): ?>
-                            <button type="button" class="btn btn-default" onclick="ajaxDeleteSentence(<?php echo $i; ?>, <?php echo $sentence->SentenceId; ?>)">
+                            <button type="button" class="btn btn-default" onclick="deleteSentence(<?php echo $i; ?>, <?php echo $sentence->SentenceId; ?>)">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
                             <?php endif; ?>
@@ -141,7 +143,8 @@
                     <label for="meaningEN" class="col-lg-3 control-label">English Meaning</label>
                     <div class="col-lg-7">
                         <input type="hidden" value="<?php echo $data['MeaningEN']->MeaningId; ?>" name="id-meaningEN" />
-                        <textarea id="meaningEN" name="meaningEN" class="form-control"><?php echo $data['MeaningEN']->Meaning; ?></textarea>
+                        <textarea id="meaningEN" name="meaningEN" class="form-control" <?php echo ($data['MeaningEN']->IsApproved) ? 'readonly="readonly"' : '';?>><?php echo $data['MeaningEN']->Meaning; ?></textarea>
+                        <input type="hidden" name="approve-meaningEN" id="approve-meaningEN" value="<?php echo $data['MeaningEN']->IsApproved; ?>">
                     </div>
                     <div class="col-lg-2">
                         <button type="button" class="btn <?php echo ($data['MeaningEN']->IsApproved) ? 'btn-success' : 'btn-default' ?>"
@@ -171,15 +174,16 @@
                         <input type="hidden" name="id-sentencesVI[]" value="<?php echo $sentence->SentenceId; ?>">
                         <label for="sentenceVI-<?php echo $i; ?>" class="col-lg-3 control-label">Sentence #<?php echo $i; ?></label>
                         <div class="col-lg-7">
-                            <input type="text" name="content-sentencesVI[]" class="form-control" id="sentenceVI-<?php echo $i; ?>" value="<?php echo $sentence->Sentence; ?>">
+                            <input type="text" name="content-sentencesVI[]" class="form-control" id="sentenceVI-<?php echo $i; ?>" value="<?php echo $sentence->Sentence; ?>" <?php echo ($sentence->IsApproved) ? 'readonly="readonly"' : '';?>>
+                            <input type="hidden" name="approve-sentenceVI[]" id="approveSentenceVI-<?php echo $i; ?>" value="<?php echo $sentence->IsApproved; ?>">
                         </div>
                         <div class="col-lg-2">
                             <button type="button" class="btn <?php echo ($sentence->IsApproved) ? 'btn-success' : 'btn-default' ?>"
-                                onclick="approveSentence(<?php echo $sentence->SentenceId; ?>, 'VI')" id="btnSentence<?php echo $sentence->SentenceId; ?>">
+                                onclick="approveSentence(<?php echo $i; ?>, 'VI')" id="btnSentenceVI<?php echo $i; ?>">
                                 <span class="glyphicon glyphicon-ok"></span>
                             </button>
                             <?php if($i > 1): ?>
-                            <button type="button" class="btn btn-default" onclick="ajaxDeleteSentence(<?php echo $i; ?>, <?php echo $sentence->SentenceId; ?>)">
+                            <button type="button" class="btn btn-default" onclick="deleteSentence(<?php echo $i; ?>, <?php echo $sentence->SentenceId; ?>)">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
                             <?php endif; ?>
@@ -237,7 +241,8 @@
                     <label for="inputPassword1" class="col-lg-3 control-label">Vietnamese Meaning</label>
                     <div class="col-lg-7">
                         <input type="hidden" value="<?php echo $data['MeaningVI']->MeaningId; ?>" name="id-meaningVI" />
-                        <textarea name="meaningVI" id="meaningVI" class="form-control"><?php echo $data['MeaningVI']->Meaning; ?></textarea>
+                        <textarea name="meaningVI" id="meaningVI" class="form-control" <?php echo ($data['MeaningVI']->IsApproved) ? 'readonly="readonly"' : '';?>><?php echo $data['MeaningVI']->Meaning; ?></textarea>
+                        <input type="hidden" name="approve-meaningVI" id="approve-meaningVI" value="<?php echo $data['MeaningVI']->IsApproved; ?>">
                     </div>
                     <div class="col-lg-2">
                         <button type="button" class="btn <?php echo ($data['MeaningVI']->IsApproved) ? 'btn-success' : 'btn-default' ?>"

@@ -63,11 +63,18 @@ class WordTable extends AbstractTableGateway {
     /**
      * Update word
      *
-     * @param $data
+     * @param $wordId
+     * @param $word
+     * @param $isToeic
+     * @param $status
      * @return int
      */
-    public function editWord($data) {
+    public function editWord($wordId, $word, $isToeic, $status) {
         $now = new \DateTime();
+        $data['WordId'] = $wordId;
+        $data['Word'] = $word;
+        $data['IsToeic'] = $isToeic;
+        $data['Status'] = $status;
         $data['UpdatedDate'] = $now->format('Y-m-d h:m:s');
         $data['UpdatedBy'] = 1;
         return $this->update($data, array('WordId' => $data['WordId']));

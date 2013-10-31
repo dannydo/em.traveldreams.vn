@@ -20,6 +20,6 @@ class Language {
         $this->LanguageId     = (!empty($data['LanguageId'])) ? $data['LanguageId'] : null;
         $this->Name = (!empty($data['Name'])) ? $data['Name'] : null;
         $this->Code  = (!empty($data['Code'])) ? $data['Code'] : null;
-        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
+        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : 0;
     }
 } 

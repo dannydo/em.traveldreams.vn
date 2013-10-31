@@ -22,6 +22,6 @@ class User {
         $this->FullName = (!empty($data['FullName'])) ? $data['FullName'] : null;
         $this->Username  = (!empty($data['Username'])) ? $data['Username'] : null;
         $this->Password  = (!empty($data['Password'])) ? $data['Password'] : null;
-        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
+        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : 0;
     }
 } 

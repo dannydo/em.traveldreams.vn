@@ -30,6 +30,6 @@ class Word {
         $this->UpdatedBy  = (!empty($data['UpdatedBy'])) ? $data['UpdatedBy'] : null;
         $this->UpdatedDate  = (!empty($data['UpdatedDate'])) ? $data['UpdatedDate'] : null;
         $this->ApprovedBy  = (!empty($data['ApprovedBy'])) ? $data['ApprovedBy'] : null;
-        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
+        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : 0;
     }
 } 

@@ -24,6 +24,6 @@ class File {
         $this->Extension  = (!empty($data['Extension'])) ? $data['Extension'] : null;
         $this->MimeType  = (!empty($data['MimeType'])) ? $data['MimeType'] : null;
         $this->SHA1  = (!empty($data['SHA1'])) ? $data['SHA1'] : null;
-        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
+        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : 0;
     }
 } 

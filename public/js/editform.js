@@ -33,8 +33,10 @@ function addSentences() {
         '<input type="text" name="content-sentencesVI[]" class="form-control" id="sentenceVI-' + nSentence + '" value="">' +
         '</div>' +
         '<div class="col-lg-2">' +
-        '<button type="button" class="btn  btn-default" disabled="disabled"><span class="glyphicon glyphicon-ok"></span></button>' +
-        '<button type="button" onclick="deleteSentence(' + nSentence + ')" class="btn  btn-default "><span class="glyphicon glyphicon-remove"></span></button>' +
+        '<input type="hidden" name="approve-sentenceVI[]" id="approveSentenceVI-'+ nSentence + '" value="0">' +
+        '<button type="button" class="btn  btn-default" onclick="approveSentence(' + nSentence + ', '+ "'VI'" + ')" id="btnSentenceVI' + nSentence + '">' +
+        '<span class="glyphicon glyphicon-ok"></span></button>' +
+        '<button type="button" onclick="deleteSentence(' + nSentence + ' 0)" class="btn  btn-default "><span class="glyphicon glyphicon-remove"></span></button>' +
         '</div>' +
         '</div>';
 
@@ -47,12 +49,18 @@ function addSentences() {
         '<input type="text" name="content-sentencesEN[]" class="form-control" id="sentenceEN-' + nSentence + '" value="">' +
         '</div>' +
         '<div class="col-lg-2">' +
-        '<button type="button" class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-ok"></span></button>' +
-        '<button type="button" onclick="deleteSentence(' + nSentence + ')" class="btn  btn-default "><span class="glyphicon glyphicon-remove"></span></button>' +
+        '<input type="hidden" name="approve-sentenceEN[]" id="approveSentenceEN-'+ nSentence + '" value="0">' +
+        '<button type="button" class="btn btn-default" onclick="approveSentence(' + nSentence + ', ' + "'EN'" + ')" id="btnSentenceEN' + nSentence + '">' +
+        '<span class="glyphicon glyphicon-ok"></span></button>' +
+        '<button type="button" onclick="deleteSentence(' + nSentence + ', 0)" class="btn  btn-default "><span class="glyphicon glyphicon-remove"></span></button>' +
         '</div>' +
         '</div>';
 
     $('#sentencesEN').append($html);
+
+    nTotalEN++; nTotalVI++;
+    $('#tabEN').html('English (' + nApprovedEN + '/' + nTotalEN + ')');
+    $('#tabVI').html('Vietnamese (' + nApprovedVI + '/' + nTotalVI + ')');
 }
 
 function updateSentenceLabel(id) {
@@ -61,81 +69,62 @@ function updateSentenceLabel(id) {
     });
 }
 
-function deleteSentence(nSentence) {
+function deleteSentence(nSentence, sentenceId) {
+    if($('#approveSentenceEN-' + nSentence).val() == 1) nApprovedEN--;
+    if($('#approveSentenceVI-' + nSentence).val() == 1) nApprovedVI--;
+
     $('#sentenceVI-' + nSentence).remove();
     $('#sentenceEN-' + nSentence).remove();
+
+    nTotalEN--; nTotalVI--;
+    $('#tabEN').html('English (' + nApprovedEN + '/' + nTotalEN + ')');
+    $('#tabVI').html('Vietnamese (' + nApprovedVI + '/' + nTotalVI + ')');
 
     nSentenceReal = nSentenceReal - 1;
     updateSentenceLabel('sentencesEN');
     updateSentenceLabel('sentencesVI');
-}
 
-function ajaxDeleteSentence(nSentence, sentenceId) {
-    if (confirm("Are you sure delete?")) {
-        var objEN = $('#sentenceEN-' + nSentence);
-        var btnEN = $(objEN).find('[id^="btnSentence"]')[0];
-        if($(btnEN).attr('class').indexOf('btn-default') >= 0) {
-            nTotalEN--;
-        } else {
-            nApprovedEN--; nTotalEN--;
-        }
-        $('#tabEN').html('English (' + nApprovedEN + '/' + nTotalEN + ')');
-        $(objEN).remove();
-
-        var objVI = $('#sentenceVI-' + nSentence);
-        var btnVI = $(objVI).find('[id^="btnSentence"]')[0];
-        if($(btnVI).attr('class').indexOf('btn-default') >= 0) {
-            nTotalVI--;
-        } else {
-            nApprovedVI--; nTotalVI--;
-        }
-        $('#tabVI').html('Vietnamese (' + nApprovedVI + '/' + nTotalVI + ')');
-        $(objVI).remove();
-
-        nSentenceReal = nSentenceReal - 1;
-        updateSentenceLabel('sentencesEN');
-        updateSentenceLabel('sentencesVI');
-
-        $.ajax({url:"/sentence/delete/"+ sentenceId,success:function(result){
-
-        }});
+    if(sentenceId > 0) {
+        var str = $('#delete-sentence').val() + sentenceId + ',';
+        $('#delete-sentence').val(str);
     }
 }
 
 function approveMeaning(meaningId, language) {
     var obj = $('#btnMeaning'+meaningId);
-    var isApproved = updateButton(obj, language);
+    var id = '#approve-meaning' + language;
+    var objTextBox = $('#meaning' + language);
 
-    $.ajax({url:"/meaning/approve/"+ meaningId + "/" + isApproved,success:function(result){
+    if($(id).val() == 0) $(id).val(1);
+    else $(id).val(0)
 
-    }});
+    updateButton(obj, objTextBox, language, $(id).val());
 }
 
-function approveSentence(sentenceId, language) {
-    var obj = $('#btnSentence'+sentenceId);
-    var isApproved = updateButton(obj, language);
+function approveSentence(nSentence, language) {
+    var obj = $('#btnSentence' + language + nSentence);
+    var id = '#approveSentence' + language + '-' + nSentence;
+    var objTextBox = $('input#sentence'+ language + '-' + nSentence);
 
-    $.ajax({url:"/sentence/approve/"+ sentenceId + "/" + isApproved,success:function(result){
+    if($(id).val() == 0) $(id).val(1);
+    else $(id).val(0)
 
-    }});
+    updateButton(obj, objTextBox, language, $(id).val());
 }
 
-function updateButton(obj, language) {
-    var strClass = $(obj).attr('class');
-    var isApproved = 0;
-    if(strClass.indexOf('btn-default') >= 0) {
+function updateButton(obj, objTextBox, language, isApproved) {
+    if(isApproved == 1) {
         if (language == 'EN') nApprovedEN++;
         if (language == 'VI') nApprovedVI++;
         $(obj).attr('class', 'btn btn-success');
-        isApproved = 1;
+        $(objTextBox).attr('readonly','readonly');
     } else {
         if (language == 'EN') nApprovedEN--;
         if (language == 'VI') nApprovedVI--;
         $(obj).attr('class', 'btn btn-default');
-        isApproved = 0;
+        $(objTextBox).removeAttr('readonly','readonly');
     }
 
     $('#tabEN').html('English (' + nApprovedEN + '/' + nTotalEN + ')');
     $('#tabVI').html('Vietnamese (' + nApprovedVI + '/' + nTotalVI + ')');
-    return isApproved;
 }

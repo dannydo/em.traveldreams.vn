@@ -47,50 +47,43 @@ class WordController extends AbstractActionController
 
             // Update word
             $wordId = $dataPost['wordId'];
-            $word['WordId'] = $dataPost['wordId'];
-            $word['Word'] = $dataPost['txtWord'];
-            $word['IsToeic'] = (isset($dataPost['isToeic']) ? 1 : 0);
-            $this->wordTable->editWord($word);
+            $isToeic = (isset($dataPost['isToeic']) ? 1 : 0);
+            $this->wordTable->editWord($wordId,  $dataPost['txtWord'], $isToeic, $this->wordTable->arrStatus['1']);
 
             // Add tag for word
             $arrTag = mb_split(',', $dataPost['txtTags']);
             $this->wordTable->addTagsForWord($arrTag, $wordId);
 
             // Update meaning for word
-            $meaning['MeaningId'] = $dataPost['id-meaningEN'];
-            $meaning['Meaning'] = $dataPost['meaningEN'];
-            $this->meaningTable->editMeaning($meaning);
-
-            $meaning['MeaningId'] = $dataPost['id-meaningVI'];
-            $meaning['Meaning'] = $dataPost['meaningVI'];
-            $this->meaningTable->editMeaning($meaning);
+            $this->meaningTable->editMeaning($dataPost['id-meaningEN'], $dataPost['meaningEN'], $dataPost['approve-meaningEN']);
+            $this->meaningTable->editMeaning($dataPost['id-meaningVI'], $dataPost['meaningVI'], $dataPost['approve-meaningVI']);
 
             // Update and add sentence for word
             for($nSentence=0; $nSentence < count($dataPost['id-sentencesEN']); $nSentence++) {
                 if ( $dataPost['id-sentencesEN'][$nSentence] != '' && is_numeric($dataPost['id-sentencesEN'][$nSentence])) {
-                    $sentence['SentenceId'] = $dataPost['id-sentencesEN'][$nSentence];
-                    $sentence['Sentence'] = $dataPost['content-sentencesEN'][$nSentence];
-                    $sentence['Order'] = $nSentence + 1;
-                    $this->sentenceTable->editSentence($sentence);
+                    $this->sentenceTable->editSentence($dataPost['id-sentencesEN'][$nSentence],
+                        $dataPost['content-sentencesEN'][$nSentence], $nSentence + 1, $dataPost['approve-sentenceEN'][$nSentence]);
 
-                    $sentence['SentenceId'] = $dataPost['id-sentencesVI'][$nSentence];
-                    $sentence['Sentence'] = $dataPost['content-sentencesVI'][$nSentence];
-                    $this->sentenceTable->editSentence($sentence);
+                    $this->sentenceTable->editSentence($dataPost['id-sentencesVI'][$nSentence],
+                        $dataPost['content-sentencesVI'][$nSentence], $nSentence + 1, $dataPost['approve-sentenceVI'][$nSentence]);
                 } else if (trim($dataPost['content-sentencesEN'][$nSentence]) != '' || trim($dataPost['content-sentencesVI'][$nSentence]) != '') {
 
-                    $sentence['LanguageId'] = $this->languageTable->arrLanguage['EN'];
-                    $sentence['WordId'] = $wordId;
-                    $sentence['Sentence'] = $dataPost['content-sentencesEN'][$nSentence];
-                    $sentence['Order'] = $nSentence + 1;
-                    unset($sentence['SentenceId']);
-                    $sentenceId = $this->sentenceTable->addSentence($sentence);
+                    $sentenceId = $this->sentenceTable->addEnSentenceForWord($wordId, $dataPost['content-sentencesEN'][$nSentence],
+                        $nSentence + 1, $dataPost['approve-sentenceEN'][$nSentence]);
 
                     if($sentenceId > 0) {
-                        $sentence['ParentSentenceId'] = $sentenceId;
-                        $sentence['LanguageId'] = $this->languageTable->arrLanguage['VI'];
-                        $sentence['Sentence'] = $dataPost['content-sentencesVI'][$nSentence];
-                        $this->sentenceTable->addSentence($sentence);
+                        $this->sentenceTable->addViSentenceForWord($wordId, $sentenceId, $dataPost['content-sentencesVI'][$nSentence],
+                            $nSentence + 1, $dataPost['approve-sentenceVI'][$nSentence]);
                     }
+                }
+            }
+
+            // Delete sentence for word
+            $arrDeleteSentence = mb_split(',', $dataPost['txtDeleteSentence']);
+            foreach($arrDeleteSentence as $sentenceId) {
+                if (is_numeric($sentenceId)) {
+                    $this->sentenceTable->deleteSentenceByParentSentenceId($sentenceId);
+                    $this->sentenceTable->deleteSentence($sentenceId);
                 }
             }
         }

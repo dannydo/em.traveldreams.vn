@@ -18,6 +18,6 @@ class AccentType {
     public function exchangeArray($data) {
         $this->AccentTypeId     = (!empty($data['AccentTypeId'])) ? $data['AccentTypeId'] : null;
         $this->AccentName = (!empty($data['AccentName'])) ? $data['AccentName'] : null;
-        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
+        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : 0;
     }
 } 

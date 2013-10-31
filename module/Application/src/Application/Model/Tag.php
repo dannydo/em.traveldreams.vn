@@ -18,6 +18,6 @@ class Tag {
     public function exchangeArray($data) {
         $this->TagId     = (!empty($data['TagId'])) ? $data['TagId'] : null;
         $this->TagName = (!empty($data['TagName'])) ? $data['TagName'] : null;
-        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : null;
+        $this->IsActive  = (!empty($data['IsActive'])) ? $data['IsActive'] : 0;
     }
 } 
