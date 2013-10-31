@@ -119,19 +119,47 @@ class WordTable extends AbstractTableGateway {
         return $this->selectWith($select);
     }
 
+    /**
+     * Add tag for word
+     *
+     * @param $arrTagName
+     * @param $wordId
+     */
     public function addTagsForWord($arrTagName, $wordId) {
-
         $tagTable = new TagTable();
         $wordTagTable = new WordTagTable();
 
+        $arrTagNameOld = $wordTagTable->getAllTagForWord($wordId);
         foreach($arrTagName as $tagName) {
-            $data['TagId'] = $tagTable->saveTags($tagName);
-            $data['WordId'] = $wordId;
+            $isAdd = true;
+            foreach($arrTagNameOld as $tagOld) {
+                if ($tagOld->TagName == $tagName) {
+                    $isAdd = false;
+                    break;
+                }
+            }
 
-            if ($data['TagId']) {
-                $wordTagTable->addWordTag($data);
+            if ($isAdd && !is_null($tagName) && $tagName != '') {
+                $data['TagId'] = $tagTable->saveTags($tagName);
+                $data['WordId'] = $wordId;
+
+                if ($data['TagId']) {
+                    $wordTagTable->saveWordTag($data);
+                }
             }
         }
+
+
+    }
+
+    /**
+     * Delete tag for word
+     *
+     * @param $arrTagName
+     * @param $wordId
+     */
+    public function deletedTagsForWord($arrTagName, $wordId) {
+        $wordTagTable = new WordTagTable();
 
         $arrTagNameOld = $wordTagTable->getAllTagForWord($wordId);
         foreach($arrTagNameOld as $tagOld) {
@@ -142,6 +170,7 @@ class WordTable extends AbstractTableGateway {
                     break;
                 }
             }
+
             if($isDelete) {
                 $wordTagTable->deleteWordTag($tagOld->WordTagId);
             }

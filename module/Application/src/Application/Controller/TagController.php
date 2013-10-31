@@ -27,7 +27,9 @@ class TagController extends AbstractActionController {
 
         $arrTag = array();
         foreach($tags as $tag) {
-            $arrTag[] = $tag->TagName;
+            if(!is_null($tag->TagName) && $tag->TagName != '') {
+                $arrTag[] = $tag->TagName;
+            }
         }
 
         $result = new JsonModel($arrTag);

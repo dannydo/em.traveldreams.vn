@@ -53,6 +53,7 @@ class WordController extends AbstractActionController
             // Add tag for word
             $arrTag = mb_split(',', $dataPost['txtTags']);
             $this->wordTable->addTagsForWord($arrTag, $wordId);
+            $this->wordTable->deletedTagsForWord($arrTag, $wordId);
 
             // Update meaning for word
             $this->meaningTable->editMeaning($dataPost['id-meaningEN'], $dataPost['meaningEN'], $dataPost['approve-meaningEN']);

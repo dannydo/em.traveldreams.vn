@@ -33,7 +33,7 @@ class WordTagTable extends AbstractTableGateway {
      *
      * @param $data
      */
-    public function addWordTag($data) {
+    public function saveWordTag($data) {
         $this->insert($data);
     }
 

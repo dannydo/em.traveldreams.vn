@@ -57,12 +57,11 @@ class TagTable extends AbstractTableGateway {
 
         $tag = $this->getTagByTagName($tagName);
         if (isset($tag->TagId)) {
-            $this->update($data, array('TagId' => $tag->TagId));
-            return false;
+            return $tag->TagId;
         }
         else {
             if($this->insert($data)) {
-                return $tagId = $this->lastInsertValue;
+                return $this->lastInsertValue;
             };
         }
 
