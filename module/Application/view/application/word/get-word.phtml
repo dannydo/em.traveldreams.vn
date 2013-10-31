@@ -169,7 +169,7 @@
                 <div id="sentencesVI">
                 <?php $nApprovedVI = 0; $nTotalVI = 0; ?>
                 <?php $i=1; foreach($data['SentenceVI'] as $sentence) : ?>
-                <?php $nApprovedVI = $nApprovedVI + (($sentence->IsApproved) ? 1 : 0); ?>
+                    <?php $nApprovedVI = $nApprovedVI + (($sentence->IsApproved) ? 1 : 0); ?>
                     <div class="form-group" id="sentenceVI-<?php echo $i; ?>">
                         <input type="hidden" name="id-sentencesVI[]" value="<?php echo $sentence->SentenceId; ?>">
                         <label for="sentenceVI-<?php echo $i; ?>" class="col-lg-3 control-label">Sentence #<?php echo $i; ?></label>
@@ -275,7 +275,7 @@
     var nTotalEN = <?php echo $nTotalEN; ?>;
     var nApprovedVI = <?php echo $nApprovedVI; ?>;
     var nTotalVI = <?php echo $nTotalVI; ?>;
-    var nSentence = <?php echo $data['SentenceEN']->count(); ?>;
+    var nSentence = <?php echo count($data['SentenceEN']); ?>;
     var nSentenceReal = nSentence;
 </script>
 <script type="text/javascript" src="/js/editform.js"></script>

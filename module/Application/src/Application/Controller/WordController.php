@@ -97,6 +97,9 @@ class WordController extends AbstractActionController
         $data['MeaningEN'] = $this->meaningTable->getListMeaning($wordId, $this->languageTable->arrLanguage['EN']);
         $data['MeaningVI'] = $this->meaningTable->getListMeaning($wordId, $this->languageTable->arrLanguage['VI']);
         $data['TagName'] = $this->wordTagTable->getAllTagNameForWord($wordId);
+
+        $this->wordTable->autoCheckAndUpdateStatusWord($data['Word'], $data['SentenceEN'], $data['SentenceVI'], $data['MeaningEN'], $data['MeaningVI']);
+
         $view = new ViewModel(
             array(
                 'data' => $data,

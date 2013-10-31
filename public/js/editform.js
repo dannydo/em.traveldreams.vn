@@ -91,9 +91,14 @@ function deleteSentence(nSentence, sentenceId) {
 }
 
 function approveMeaning(meaningId, language) {
+    var objTextBox = $('#meaning' + language);
+    if (objTextBox.val() == '') {
+        alert('You can not approve because meaning is empty.')
+        return;
+    }
+
     var obj = $('#btnMeaning'+meaningId);
     var id = '#approve-meaning' + language;
-    var objTextBox = $('#meaning' + language);
 
     if($(id).val() == 0) $(id).val(1);
     else $(id).val(0)
@@ -102,9 +107,15 @@ function approveMeaning(meaningId, language) {
 }
 
 function approveSentence(nSentence, language) {
+    var objTextBox = $('input#sentence'+ language + '-' + nSentence);
+
+    if (objTextBox.val() == '') {
+        alert('You can not approve because sentence is empty.')
+        return;
+    }
+
     var obj = $('#btnSentence' + language + nSentence);
     var id = '#approveSentence' + language + '-' + nSentence;
-    var objTextBox = $('input#sentence'+ language + '-' + nSentence);
 
     if($(id).val() == 0) $(id).val(1);
     else $(id).val(0)

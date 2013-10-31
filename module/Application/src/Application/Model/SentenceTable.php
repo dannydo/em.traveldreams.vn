@@ -21,10 +21,6 @@ class SentenceTable extends AbstractTableGateway {
 
     public function __construct() {
         $this->adapter = GlobalAdapterFeature::getStaticAdapter();
-
-        $resultSetPrototype = new ResultSet();
-        $resultSetPrototype->setArrayObjectPrototype(new Sentence());
-        $this->resultSetPrototype = $resultSetPrototype;
     }
 
     /**
@@ -93,7 +89,11 @@ class SentenceTable extends AbstractTableGateway {
             ->where(array('WordId' => $wordId, 'LanguageId' => $languageId))
             ->order('Order ASC');
 
-        return $this->selectWith($select);
+        $records = array();
+        foreach($this->selectWith($select) as $obj) {
+            $records[] = $obj;
+        }
+        return $records;
     }
 
     /**

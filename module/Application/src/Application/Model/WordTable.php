@@ -28,10 +28,6 @@ class WordTable extends AbstractTableGateway {
 
     public function __construct() {
         $this->adapter = GlobalAdapterFeature::getStaticAdapter();
-
-//        $resultSetPrototype = new ResultSet();
-//        $resultSetPrototype->setArrayObjectPrototype(new Word());
-//        $this->resultSetPrototype = $resultSetPrototype;
     }
 
     /**
@@ -175,5 +171,46 @@ class WordTable extends AbstractTableGateway {
                 $wordTagTable->deleteWordTag($tagOld->WordTagId);
             }
         }
+    }
+
+    function autoCheckAndUpdateStatusWord($dataWord, $dataSentenceEN, $dataSentenceVI, $dataMeaningEN, $dataMeaningVI) {
+        $isNeedContent = false;
+        $status = $this->arrStatus['1'];
+
+        if (is_null($dataWord->Word) ||$dataWord->Word == '') {
+            $isNeedContent = true;
+        }
+
+        if ($isNeedContent == false) {
+            foreach($dataSentenceEN as $sentence) {
+                if (is_null($sentence->Sentence) || $sentence->Sentence == '') {
+                    $isNeedContent = true;
+                    break;
+                }
+            }
+        }
+
+        if ($isNeedContent == false) {
+            foreach($dataSentenceVI as $sentence) {
+                if (is_null($sentence->Sentence) || $sentence->Sentence == '') {
+                    $isNeedContent = true;
+                    break;
+                }
+            }
+        }
+
+        if ($isNeedContent == false) {
+            if (is_null($dataMeaningEN->Meaning) || $dataMeaningEN->Meaning == '') $isNeedContent = true;
+        }
+
+        if ($isNeedContent == false) {
+            if (is_null($dataMeaningVI->Meaning) || $dataMeaningVI->Meaning == '')  $isNeedContent = true;
+        }
+
+        if (!$isNeedContent) {
+            $status = $this->arrStatus['2'];
+        }
+
+        $this->update(array('Status' => $status), array('WordId' => $dataWord->WordId));
     }
 } 

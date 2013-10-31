@@ -20,10 +20,6 @@ class MeaningTable extends AbstractTableGateway {
 
     public function __construct() {
         $this->adapter = GlobalAdapterFeature::getStaticAdapter();
-
-        $resultSetPrototype = new ResultSet();
-        $resultSetPrototype->setArrayObjectPrototype(new Meaning());
-        $this->resultSetPrototype = $resultSetPrototype;
     }
 
     /**
