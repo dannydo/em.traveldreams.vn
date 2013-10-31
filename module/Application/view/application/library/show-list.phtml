@@ -41,6 +41,8 @@
 
     $('.word-list-item').click(function() {
         var wordId=$(this).attr('id');
+        $('li.active.word-list-item').removeClass('active');
+        $(this).addClass('active');
         $(".error-message").html('');
         $('body').showLoading( {
             'afterShow': function() {
@@ -92,4 +94,8 @@
             return false;
         });
     });
+
+    <?php if($isLoadDataByWordId):?>
+    <?php echo "$('#$wordId').click();"; ?>
+    <?php endif; ?>
 </script>

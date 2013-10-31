@@ -26,6 +26,7 @@ class LibraryController extends AbstractActionController
     public function showListAction() {
         $status = strtoupper($this->params()->fromRoute('status', ''));
         $wordId = strtoupper($this->params()->fromRoute('wordId', ''));
+        $isLoadDataByWordId = false;
 
         $this->wordTable = new WordTable();
         $this->languageTable = new LanguageTable();
@@ -33,6 +34,7 @@ class LibraryController extends AbstractActionController
 
         if (is_numeric($wordId) && $wordId > 0 && $status == 'WORDID') {
             $word = $this->wordTable->getWordByWordId($wordId);
+            $isLoadDataByWordId = true;
             if (isset($word->WordId)) {
                 $words = $this->wordTable->getWordsByWord($word->Word, $this->languageTable->arrLanguage['EN']);
             }
@@ -44,6 +46,8 @@ class LibraryController extends AbstractActionController
         return new ViewModel(
             array(
                 'words' => $words,
+                'isLoadDataByWordId' => $isLoadDataByWordId,
+                'wordId' =>$wordId
             )
         );
     }
