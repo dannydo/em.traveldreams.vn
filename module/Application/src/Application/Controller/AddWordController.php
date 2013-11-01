@@ -23,28 +23,45 @@ class AddWordController extends AbstractActionController
 
     public function indexAction()
     {
-        $request = $this->getRequest();
+       $request = $this->getRequest();
+
+        $this->wordTable = new WordTable();
+        $this->meaningTable = new MeaningTable();
+        $this->sentenceTable = new SentenceTable();
+
         if($request->isPost()) {
-            $data = $request->getPost();
+            $dataPost = $request->getPost();
 
-            $this->wordTable = new WordTable();
-            $this->meaningTable = new MeaningTable();
-            $this->sentenceTable = new SentenceTable();
+            // Add word
+            $isToeic = (isset($dataPost['isToeic']) ? 1 : 0);
+            $wordId = $this->wordTable->addNewWord($dataPost['word'],$isToeic);
 
-            $wordId = $this->wordTable->addNewWord($data['word'],$data['isToeic']);
-            $this->meaningTable->addEnMeaningForWord($wordId, $data['en-meaning']);
-            $this->meaningTable->addViMeaningForWord($wordId, $data['vi-meaning']);
+            // Add tag for word
+            $arrTag = mb_split(',', $dataPost['txtTags']);
+            $this->wordTable->addTagsForWord($arrTag, $wordId);
+            $this->wordTable->deletedTagsForWord($arrTag, $wordId);
 
-            $order = 1;
-            foreach($data['sentence'] as $sen){
+            //Add meaning
+            $this->meaningTable->addEnMeaningForWord($wordId, $dataPost['en-meaning']);
+            $this->meaningTable->addViMeaningForWord($wordId, $dataPost['vi-meaning']);
+
+            // add sentence for word
+            $order = 0;
+            foreach($dataPost['sentence'] as $sen){
                 if($sen['en'] != '' || $sen['vi'] != ''){
+                    $order++;
                     $senId = $this->sentenceTable->addEnSentenceForWord($wordId, $sen['en'], $order);
                     $this->sentenceTable->addViSentenceForWord($wordId, $senId, $sen['vi'], $order);
-                    $order++;
                 }
             }
 
-            return $this->redirect('add-word');
+            if($order ==0){
+                $senId = $this->sentenceTable->addEnSentenceForWord($wordId, "", $order);
+                $this->sentenceTable->addViSentenceForWord($wordId, $senId, "", $order);
+            }
+
+            return $this->redirect()->toRoute('application/library',
+                    array('controller' => 'library', 'action' => 'show-list', 'status'=>'wordId', 'wordId' => $wordId));
         }
 
         return new ViewModel();
@@ -59,7 +76,8 @@ class AddWordController extends AbstractActionController
 
         $data = array();
         foreach($wordData as $row){
-            $data[] = array('word' => $row->Word,
+            $data[] = array('wordId' => $row->WordId,
+                            'word' => $row->Word,
                             'meaning' => $row->Meaning);
         }
 

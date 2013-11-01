@@ -2,6 +2,7 @@
  * Created by TinVo on 10/29/13.
  */
 var nSentences = 0;
+var nSentenceReal = 0;
 
 function checkExistWord(){
     var word = $("#word").val();
@@ -15,7 +16,7 @@ function checkExistWord(){
                 str += "<li>";
                 str += "<b>" + value.word + ": </b>";
                 str += "<i>" +  value.meaning + " </i>";
-                str += "<button type='button' class='btn btn-default btn-sm'>";
+                str += "<button type='button' class='btn btn-default btn-sm btn-edit' wordId='" + value.wordId + "'>";
                 str += "<span class='glyphicon glyphicon-pencil'></span>";
                 str += "</button></li>";
             });
@@ -25,18 +26,18 @@ function checkExistWord(){
     });
 }
 
-function parseSentenceHTML(lang, id){
-    var htmlID = lang + "-sentence-" + id;
-    var htmlName = "sentence[" + id +"][" + lang + "]";
+function parseSentenceHTML(lang, nSentences, nSentenceReal){
+    var htmlID = lang + "-sentence-" + nSentences;
+    var htmlName = "sentence[" + nSentences +"][" + lang + "]";
 
     var sentenceHTML = "";
     sentenceHTML += "<div class=\"form-group\">";
-    sentenceHTML += "  <label for=\"" + htmlID + "\" class=\"col-lg-3 control-label\">Sentence #" + id + "</label>";
+    sentenceHTML += "  <label for=\"" + htmlID + "\" class=\"col-lg-3 control-label\">Sentence #" + nSentenceReal + "</label>";
     sentenceHTML += "  <div class=\"col-lg-7\">";
     sentenceHTML += "    <input type=\"text\" class=\"form-control\" id=\"" + htmlID + "\" name=\"" + htmlName + "\">";
     sentenceHTML += "  </div>";
     sentenceHTML += "  <div class=\"col-lg-2\">";
-    sentenceHTML += "    <button type=\"button\" class=\"btn btn-default del-sentence\" senId=\"" + id + "\">";
+    sentenceHTML += "    <button type=\"button\" class=\"btn btn-default del-sentence\" senId=\"" + nSentences + "\">";
     sentenceHTML += "      <span class=\"glyphicon glyphicon-remove\"></span>";
     sentenceHTML += "    </button>";
     sentenceHTML += "  </div>";
@@ -45,17 +46,36 @@ function parseSentenceHTML(lang, id){
     return sentenceHTML;
 }
 
-function addSentence(id){
-    var enHTML = parseSentenceHTML('en', id);
-    var viHTML = parseSentenceHTML('vi', id);
+function addSentence(nSentences, nSentenceReal){
+    var enHTML = parseSentenceHTML('en', nSentences, nSentenceReal);
+    var viHTML = parseSentenceHTML('vi', nSentences, nSentenceReal);
     $("#en-sentence-container").append(enHTML);
     $("#vi-sentence-container").append(viHTML);
+
+
 }
 
+function updateSentenceLabel(id) {
+    $('#'+id).find('.form-group').each(function(index) {
+        $(this).find('label').first().html('Sentence #' + (index+1));
+    });
+}
+
+//tags
+$('#txtTags').tagsinput();
+
+$('#txtTags').tagsinput('input').typeahead({
+    prefetch: '/tag/get-tags'
+}).bind('typeahead:selected', $.proxy(function (obj, datum) {
+        this.tagsinput('add', datum.value);
+        this.tagsinput('input').typeahead('setQuery', '');
+    }, $('#txtTags')));
+//end tags
+
 window.onload = function() {
-    addSentence(++nSentences);
+    addSentence(++nSentences, ++nSentenceReal);
     $(".add-sentence").click(function(e){
-        addSentence(++nSentences)
+        addSentence(++nSentences, ++nSentenceReal)
     });
 
 //    $('#word').typeahead({
@@ -86,8 +106,17 @@ window.onload = function() {
         return true;
     });
 
+    $(document).on('click', ".btn-edit", function(){
+        var wordId = $(this).attr('wordId');
+        location.href = "library/show-list/wordId/" + wordId;
+    });
+
     $(document).on('click', ".del-sentence", function(){
         var senId = $(this).attr('senId');
         $("button[senId='" + senId + "']").parent().parent().remove();
+        updateSentenceLabel("en-sentence-container");
+        updateSentenceLabel("vi-sentence-container");
+
+        nSentenceReal = nSentenceReal - 1;
     });
 }
