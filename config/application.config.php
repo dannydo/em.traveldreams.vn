@@ -16,6 +16,7 @@ return array(
             './vendor'
             ),
         'config_glob_paths' => array('config/autoload/{,*.}{global,local}.php', 
-            (getenv("APPLICATION_ENV") ? getenv("APPLICATION_ENV") : '').".config.php")
+            'config/autoload/'.(getenv("APPLICATION_ENV") ? 
+        getenv("APPLICATION_ENV") : '').".config.php")
         )
     );
