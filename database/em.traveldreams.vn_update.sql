@@ -1,9 +1,4 @@
 /*======================================= Begin 28-10-2013 =======================================*/
-
-/**
-* it was running
- */
-
 ALTER TABLE  `AccentTypes` CHANGE  `AccentTypeId`  `AccentTypeId` INT( 11 ) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE  `Files` CHANGE  `FileId`  `FileId` INT( 11 ) NOT NULL AUTO_INCREMENT;
