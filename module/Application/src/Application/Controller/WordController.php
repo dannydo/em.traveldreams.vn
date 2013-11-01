@@ -8,10 +8,12 @@
 
 namespace Application\Controller;
 
+use Application\Model\AccentTypeTable;
+use Application\Model\FileTable;
 use Application\Model\LanguageTable;
 use Application\Model\MeaningTable;
 use Application\Model\SentenceTable;
-use Application\Model\TagTable;
+use Application\Model\VoiceTable;
 use Application\Model\WordTable;
 use Application\Model\WordTagTable;
 use Zend\Debug\Debug;
@@ -21,12 +23,6 @@ use Zend\View\Model\ViewModel;
 class WordController extends AbstractActionController
 {
 
-    protected $wordTable;
-    protected $languageTable;
-    protected $meaningTable;
-    protected $sentenceTable;
-    protected $wordTagTable;
-
     public function indexAction() {
         return $this->redirect()->toRoute('application/default', array('controller' => 'index', 'action' => 'index'));
     }
@@ -34,11 +30,14 @@ class WordController extends AbstractActionController
     public function getWordAction() {
         $wordId = $this->params()->fromRoute('wordId', 0);
 
-        $this->languageTable = new LanguageTable();
-        $this->wordTable = new WordTable();
-        $this->meaningTable = new MeaningTable();
-        $this->sentenceTable = new SentenceTable();
-        $this->wordTagTable = new WordTagTable();
+        $languageTable = new LanguageTable();
+        $wordTable = new WordTable();
+        $meaningTable = new MeaningTable();
+        $sentenceTable = new SentenceTable();
+        $wordTagTable = new WordTagTable();
+        $voiceTable = new VoiceTable();
+        $accentTypeTable = new AccentTypeTable();
+        $fileTable = new FileTable();
 
         // update and insert data
         $request = $this->getRequest();
@@ -48,32 +47,54 @@ class WordController extends AbstractActionController
             // Update word
             $wordId = $dataPost['wordId'];
             $isToeic = (isset($dataPost['isToeic']) ? 1 : 0);
-            $this->wordTable->editWord($wordId,  $dataPost['txtWord'], $isToeic, $this->wordTable->arrStatus['1']);
+            $wordTable->editWord($wordId,  $dataPost['txtWord'], $isToeic, $wordTable->arrStatus['1']);
 
             // Add tag for word
             $arrTag = mb_split(',', $dataPost['txtTags']);
-            $this->wordTable->addTagsForWord($arrTag, $wordId);
-            $this->wordTable->deletedTagsForWord($arrTag, $wordId);
+            $wordTable->addTagsForWord($arrTag, $wordId);
+            $wordTable->deletedTagsForWord($arrTag, $wordId);
+
+            // Add voice for word
+            $nAdd = 0;
+            for($nVoice=0; $nVoice<count($dataPost['voiceTypeWord'])-1; $nVoice++) {
+                if($dataPost['chooseFile'][$nVoice] == 1) {
+                    $dataFile['name'] = $_FILES['voiceFileWord']['name'][$nAdd];
+                    $dataFile['type'] = $_FILES['voiceFileWord']['type'][$nAdd];
+                    $dataFile['tmp_name'] = $_FILES['voiceFileWord']['tmp_name'][$nAdd];
+                    $dataFile['size'] = $_FILES['voiceFileWord']['size'][$nAdd];
+                    $dataFile['error'] = $_FILES['voiceFileWord']['error'][$nAdd];
+
+                    $fileId = $fileTable->addFile($dataFile);
+                    if($fileId) {
+                        $voiceTable->addVoiceForWord($dataPost['voiceTypeWord'][$nVoice], $fileId, $languageTable->arrLanguage['EN'], $wordId);
+                    }
+                    $nAdd++;
+                }
+            }
+
+            // Delete voice for word
+            $arrVoiceWordId = mb_split(',', $dataPost['arrIdVoiceDelete']);
+            $voiceTable->deleteVoices($arrVoiceWordId);
 
             // Update meaning for word
-            $this->meaningTable->editMeaning($dataPost['id-meaningEN'], $dataPost['meaningEN'], $dataPost['approve-meaningEN']);
-            $this->meaningTable->editMeaning($dataPost['id-meaningVI'], $dataPost['meaningVI'], $dataPost['approve-meaningVI']);
+            $meaningTable->editMeaning($dataPost['id-meaningEN'], $dataPost['meaningEN'], $dataPost['approve-meaningEN']);
+            $meaningTable->editMeaning($dataPost['id-meaningVI'], $dataPost['meaningVI'], $dataPost['approve-meaningVI']);
 
             // Update and add sentence for word
             for($nSentence=0; $nSentence < count($dataPost['id-sentencesEN']); $nSentence++) {
                 if ( $dataPost['id-sentencesEN'][$nSentence] != '' && is_numeric($dataPost['id-sentencesEN'][$nSentence])) {
-                    $this->sentenceTable->editSentence($dataPost['id-sentencesEN'][$nSentence],
+                    $sentenceTable->editSentence($dataPost['id-sentencesEN'][$nSentence],
                         $dataPost['content-sentencesEN'][$nSentence], $nSentence + 1, $dataPost['approve-sentenceEN'][$nSentence]);
 
-                    $this->sentenceTable->editSentence($dataPost['id-sentencesVI'][$nSentence],
+                    $sentenceTable->editSentence($dataPost['id-sentencesVI'][$nSentence],
                         $dataPost['content-sentencesVI'][$nSentence], $nSentence + 1, $dataPost['approve-sentenceVI'][$nSentence]);
                 } else if (trim($dataPost['content-sentencesEN'][$nSentence]) != '' || trim($dataPost['content-sentencesVI'][$nSentence]) != '') {
 
-                    $sentenceId = $this->sentenceTable->addEnSentenceForWord($wordId, $dataPost['content-sentencesEN'][$nSentence],
+                    $sentenceId = $sentenceTable->addEnSentenceForWord($wordId, $dataPost['content-sentencesEN'][$nSentence],
                         $nSentence + 1, $dataPost['approve-sentenceEN'][$nSentence]);
 
                     if($sentenceId > 0) {
-                        $this->sentenceTable->addViSentenceForWord($wordId, $sentenceId, $dataPost['content-sentencesVI'][$nSentence],
+                        $sentenceTable->addViSentenceForWord($wordId, $sentenceId, $dataPost['content-sentencesVI'][$nSentence],
                             $nSentence + 1, $dataPost['approve-sentenceVI'][$nSentence]);
                     }
                 }
@@ -83,22 +104,24 @@ class WordController extends AbstractActionController
             $arrDeleteSentence = mb_split(',', $dataPost['txtDeleteSentence']);
             foreach($arrDeleteSentence as $sentenceId) {
                 if (is_numeric($sentenceId)) {
-                    $this->sentenceTable->deleteSentenceByParentSentenceId($sentenceId);
-                    $this->sentenceTable->deleteSentence($sentenceId);
+                    $sentenceTable->deleteSentenceByParentSentenceId($sentenceId);
+                    $sentenceTable->deleteSentence($sentenceId);
                 }
             }
         }
 
         // get data
         $data = array();
-        $data['Word'] = $this->wordTable->getWordByWordId($wordId);
-        $data['SentenceEN'] = $this->sentenceTable->getListSentence($wordId, $this->languageTable->arrLanguage['EN']);
-        $data['SentenceVI'] = $this->sentenceTable->getListSentence($wordId, $this->languageTable->arrLanguage['VI']);
-        $data['MeaningEN'] = $this->meaningTable->getListMeaning($wordId, $this->languageTable->arrLanguage['EN']);
-        $data['MeaningVI'] = $this->meaningTable->getListMeaning($wordId, $this->languageTable->arrLanguage['VI']);
-        $data['TagName'] = $this->wordTagTable->getAllTagNameForWord($wordId);
+        $data['Word'] = $wordTable->getWordByWordId($wordId);
+        $data['SentenceEN'] = $sentenceTable->getListSentence($wordId, $languageTable->arrLanguage['EN']);
+        $data['SentenceVI'] = $sentenceTable->getListSentence($wordId, $languageTable->arrLanguage['VI']);
+        $data['MeaningEN'] = $meaningTable->getListMeaning($wordId, $languageTable->arrLanguage['EN']);
+        $data['MeaningVI'] = $meaningTable->getListMeaning($wordId, $languageTable->arrLanguage['VI']);
+        $data['TagName'] = $wordTagTable->getAllTagNameForWord($wordId);
+        $data['WordVoicesEN'] = $voiceTable->getVoicesForWord($wordId, $languageTable->arrLanguage['EN']);
+        $data['AccentTypes'] = $accentTypeTable->fetchAll();
 
-        $this->wordTable->autoCheckAndUpdateStatusWord($data['Word'], $data['SentenceEN'], $data['SentenceVI'], $data['MeaningEN'], $data['MeaningVI']);
+        $wordTable->autoCheckAndUpdateStatusWord($data['Word'], $data['SentenceEN'], $data['SentenceVI'], $data['MeaningEN'], $data['MeaningVI']);
 
         $view = new ViewModel(
             array(

@@ -36,7 +36,7 @@ function addSentences() {
         '<input type="hidden" name="approve-sentenceVI[]" id="approveSentenceVI-'+ nSentence + '" value="0">' +
         '<button type="button" class="btn  btn-default" onclick="approveSentence(' + nSentence + ', '+ "'VI'" + ')" id="btnSentenceVI' + nSentence + '">' +
         '<span class="glyphicon glyphicon-ok"></span></button>' +
-        '<button type="button" onclick="deleteSentence(' + nSentence + ' 0)" class="btn  btn-default "><span class="glyphicon glyphicon-remove"></span></button>' +
+        '<button type="button" onclick="deleteSentence(' + nSentence + ', 0)" class="btn  btn-default "><span class="glyphicon glyphicon-remove"></span></button>' +
         '</div>' +
         '</div>';
 
@@ -139,3 +139,13 @@ function updateButton(obj, objTextBox, language, isApproved) {
     $('#tabEN').html('English (' + nApprovedEN + '/' + nTotalEN + ')');
     $('#tabVI').html('Vietnamese (' + nApprovedVI + '/' + nTotalVI + ')');
 }
+
+$('#btnAddVoice').click(function() {
+    $('#displayAddVoice').append($('#controlAddVoice').html());
+});
+
+$('.btnRemoveVoiceExists').click(function() {
+    $(this).parent().parent().remove();
+    var strId = $('#arrIdVoiceDelete').val() + $(this).attr('id') + ',';
+    $('#arrIdVoiceDelete').val(strId);
+});

@@ -94,3 +94,9 @@ INSERT INTO `em.traveldreams.vn`.`Meanings` (
 
 INSERT INTO `em.traveldreams.vn`.`AccentTypes` (`AccentTypeId`, `AccentName`, `IsActive`) VALUES (NULL, 'US Male', '1'), (NULL, 'VN Male', '1');
 /*======================================= End 28-10-2013 =======================================*/
+
+/*======================================= End 01-11-2013 =======================================*/
+ALTER TABLE  `Files` ADD UNIQUE (
+  `SHA1`
+)
+/*======================================= End 01-11-2013 =======================================*/

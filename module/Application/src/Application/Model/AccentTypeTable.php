@@ -25,4 +25,8 @@ class AccentTypeTable extends AbstractTableGateway {
         $resultSetPrototype->setArrayObjectPrototype(new AccentType());
         $this->resultSetPrototype = $resultSetPrototype;
     }
+
+    public function fetchAll() {
+        return $this->select(array('IsActive' => 1));
+    }
 } 
