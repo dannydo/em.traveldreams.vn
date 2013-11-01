@@ -1,9 +1,4 @@
 /*======================================= Begin 28-10-2013 =======================================*/
-
-/**
-* it was running
- */
-
 ALTER TABLE  `AccentTypes` CHANGE  `AccentTypeId`  `AccentTypeId` INT( 11 ) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE  `Files` CHANGE  `FileId`  `FileId` INT( 11 ) NOT NULL AUTO_INCREMENT;
@@ -94,3 +89,9 @@ INSERT INTO `em.traveldreams.vn`.`Meanings` (
 
 INSERT INTO `em.traveldreams.vn`.`AccentTypes` (`AccentTypeId`, `AccentName`, `IsActive`) VALUES (NULL, 'US Male', '1'), (NULL, 'VN Male', '1');
 /*======================================= End 28-10-2013 =======================================*/
+
+/*======================================= End 01-11-2013 =======================================*/
+ALTER TABLE  `Files` ADD UNIQUE (
+  `SHA1`
+)
+/*======================================= End 01-11-2013 =======================================*/

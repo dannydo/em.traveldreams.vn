@@ -19,7 +19,7 @@
 
     <div class="col-xs-12 col-sm-12 col-md-8">
         <div class="error-message"></div>
-        <form class="form-horizontal" role="form" method="post" action="/word/get-word" id="content-word">
+        <form class="form-horizontal" role="form" method="post" action="/word/get-word" enctype="multipart/form-data" id="content-word">
 
         </form>
     </div>
@@ -49,48 +49,48 @@
         });
     });
 
-    $(function () {
-        $('form').bind('submit', function () {
-            var word = $('#txtWord').val();
-            var enMeaning = $('#meaningEN').val();
-            var checkForm = true;
-
-            $("#txtWord").parent().parent(".form-group").removeClass('has-error');
-            $("#meaningEN").parent().parent(".form-group").removeClass('has-error');
-
-            if((word == null) || (word == '')) {
-                $(".error-message").html('<div class="alert alert-danger">Please add a word!</div>');
-                $("#txtWord").parent().parent(".form-group").addClass('has-error');
-                checkForm = false;
-            } else {
-                if((enMeaning==null || enMeaning == '')){
-                    $(".error-message").html('<div class="alert alert-danger">Please add English meaning!</div>');
-                    $("#meaningEN").parent().parent(".form-group").addClass('has-error');
-                    checkForm = false;
-                }
-            }
-
-            if (checkForm) {
-                $(".error-message").html('');
-                $('body').showLoading( {
-                    'afterShow': function() {
-                        $.ajax({
-                            type: 'post',
-                            url: '/word/get-word',
-                            data: $('form').serialize(),
-                            success: function (result) {
-                                $("#content-word").html(result);
-                                $('body').hideLoading();
-                                $('li.active.word-list-item').find('b').first().html($("#txtWord").val());
-                                $('li.active.word-list-item').find('span').first().html($("#meaningEN").val().substring(0, 25) + '...');
-                            }
-                        });
-                    }
-                });
-            }
-            return false;
-        });
+    $('form').ajaxForm({
+        url: '/word/get-word',
+        beforeSubmit: validateForm,
+        success: updateHtml
     });
+
+    function updateHtml(result) {
+        $("#content-word").html(result);
+        $('body').hideLoading();
+        $('li.active.word-list-item').find('b').first().html($("#txtWord").val());
+        $('li.active.word-list-item').find('span').first().html($("#meaningEN").val().substring(0, 25) + '...');
+    }
+
+    function validateForm() {
+        var word = $('#txtWord').val();
+        var enMeaning = $('#meaningEN').val();
+        var checkForm = true;
+
+        $("#txtWord").parent().parent(".form-group").removeClass('has-error');
+        $("#meaningEN").parent().parent(".form-group").removeClass('has-error');
+
+        if((word == null) || (word == '')) {
+            $(".error-message").html('<div class="alert alert-danger">Please add a word!</div>');
+            $("#txtWord").parent().parent(".form-group").addClass('has-error');
+            checkForm = false;
+        } else {
+            if((enMeaning==null || enMeaning == '')){
+                $(".error-message").html('<div class="alert alert-danger">Please add English meaning!</div>');
+                $("#meaningEN").parent().parent(".form-group").addClass('has-error');
+                checkForm = false;
+            }
+        }
+
+        if (checkForm) {
+            $(".error-message").html('');
+            $('body').showLoading( {
+                'afterShow': function() {}
+            });
+        }
+
+        return checkForm;
+    }
 
     <?php if($isLoadDataByWordId):?>
     <?php echo "$('#$wordId').click();"; ?>

@@ -20,39 +20,83 @@
             </div>
         </div>
 
-        <!--<div class="form-group">
-            <label for="inputEmail1" class="col-lg-3 control-label">US, Male</label>
-            <div class="col-lg-9">
-                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-volume-up"></span></button>
-                <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button>
-                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></button>
+        <?php $selectOption = ''; foreach($data['AccentTypes'] as $accentType): ?>
+            <?php $selectOption .= '<option value="'.$accentType->AccentTypeId.'">'.$accentType->AccentName.'</option>'; ?>
+        <?php endforeach; ?>
+
+        <?php if(count($data['WordVoicesEN']) > 0): ?>
+        <div id="displayAddVoiceExxists">
+            <input type="hidden" value="" name="arrIdVoiceDelete" id="arrIdVoiceDelete">
+            <?php foreach($data['WordVoicesEN'] as $voice): ?>
+            <div class="form-group">
+                <input type="hidden" name="approveVoice[]" value="<?php echo $voice->IsApproved; ?>">
+                <input type="hidden" name="idVoice[]" value="<?php echo $voice->VoiceId; ?>">
+                <label for="inputEmail1" class="col-lg-3 control-label"><?php echo $voice->AccentName; ?></label>
+                <div class="col-lg-9">
+                    <button type="button" class="btn btn-default btnListenVoiceExists"><span class="glyphicon glyphicon-volume-up"></span></button>
+                    <button type="button" class="btn btn-success btnApproveVoiceExists" id="<?php echo $voice->VoiceId; ?>"><span class="glyphicon glyphicon-ok"></span></button>
+                    <button type="button" class="btn btn-default btnRemoveVoiceExists" id="<?php echo $voice->VoiceId; ?>"><span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <div id="displayAddVoice">
+        </div>
+        <?php else: ?>
+        <div id="displayAddVoice">
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Voice File</label>
+                <div class="col-lg-3 ">
+                    <select class="form-control" name="voiceTypeWord[]" id="voiceTypeWord">
+                        <?php echo $selectOption; ?>
+                    </select>
+                </div>
+                <div class="col-lg-4 ">
+                    <input type="hidden" name="chooseFile[]" value="0">
+                    <input type="file" class="form-control voiceFileWord" name="voiceFileWord[]">
+                </div>
             </div>
         </div>
+        <?php endif; ?>
 
-        <div class="form-group">
-            <label for="inputEmail1" class="col-lg-3 control-label">Voice File</label>
-            <div class="col-lg-3 ">
-                <select class="form-control ">
-                    <option>US, Male</option>
-                    <option>US, Female</option>
-                </select>
-            </div>
+        <div id="controlAddVoice" class="hidden">
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Voice File</label>
+                <div class="col-lg-3 ">
+                    <select class="form-control" name="voiceTypeWord[]" id="voiceTypeWord">
+                        <?php echo $selectOption; ?>
+                    </select>
+                </div>
+                <div class="col-lg-4 ">
+                    <input type="hidden" name="chooseFile[]" value="0">
+                    <input type="file" class="form-control voiceFileWord" name="voiceFileWord[]">
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-default btnRemoveVoice"><span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+                <script>
+                    $('.btnRemoveVoice').click(function() {
+                        $(this).parent().parent().remove();
+                    });
 
-            <div class="col-lg-4 ">
-                <input type="file" class="form-control " id="inputEmail1">
-            </div>
-
-            <div class="col-lg-2">
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-open"></span> Upload</button>
+                    $('input:file').change(function() {
+                        if($(this).val() != '') {
+                            $(this).parent().children().first().val(1);
+                        }
+                        else {
+                            $(this).parent().children().first().val(0);
+                        }
+                    });
+                </script>
             </div>
         </div>
 
         <hr>
         <div class="form-group">
             <div class="col-lg-offset-3 col-lg-9">
-                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Voice</button>
+                <button type="button" class="btn btn-default" id="btnAddVoice"><span class="glyphicon glyphicon-plus"></span> Voice</button>
             </div>
-        </div>-->
+        </div>
     </div>
 </div>
 
@@ -127,16 +171,17 @@
                         <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Voice</button>
                     </div>
                 </div>-->
+
+
+                <hr>
+                <div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-9">
+                        <button type="button" onclick="addSentences()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Sentence</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-lg-offset-3 col-lg-9">
-                <button type="button" onclick="addSentences()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Sentence</button>
-            </div>
-        </div>
-
-        <hr>
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="form-group">
@@ -225,16 +270,16 @@
                         <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Voice</button>
                     </div>
                 </div>-->
+
+                <hr>
+                <div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-9">
+                        <button type="button" onclick="addSentences()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Sentence</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-lg-offset-3 col-lg-9">
-                <button type="button" onclick="addSentences()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Sentence</button>
-            </div>
-        </div>
-
-        <hr>
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="form-group">

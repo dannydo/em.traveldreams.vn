@@ -81,7 +81,7 @@ class SentenceTable extends AbstractTableGateway {
      *
      * @param int $wordId
      * @param int $languageId
-     * @return null|\Zend\Db\ResultSet\ResultSetInterface
+     * @return array
      */
     public function getListSentence($wordId, $languageId) {
         $select = new Select();
