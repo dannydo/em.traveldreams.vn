@@ -21,6 +21,18 @@ function checkExistWord(){
                 str += "</button></li>";
             });
             $("#existWordList").html(str);
+
+            if(str == ""){
+                $.ajax({
+                    type: "POST",
+                    url: "dictionary/index/get-word",
+                    data: {word : word},
+                    success: function(data){
+                        $("#vi-meaning").val(data.Definition)
+                    },
+                    dataType: "json"
+                });
+            }
         },
         dataType: "json"
     });
@@ -78,11 +90,14 @@ window.onload = function() {
         addSentence(++nSentences, ++nSentenceReal)
     });
 
-//    $('#word').typeahead({
-//        local: ['alpha','allpha2','alpha3','bravo','charlie','delta','epsilon','gamma','zulu']
-//    });
+    $('#word').typeahead({
+        name: 'dictionary',
+        remote: '/dictionary/index/dictionary?word=%QUERY',
+        limit: 10,
+        minLength: 3
+    });
 
-//    $('.tt-query').css('background-color','#fff');
+    $('.tt-query').css('background-color','#fff');
 
     $(".btn-addWord").click(function(e){
         var word = $('#word').val();
