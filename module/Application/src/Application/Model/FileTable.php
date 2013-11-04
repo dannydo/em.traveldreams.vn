@@ -17,6 +17,7 @@ use Zend\Debug\Debug;
 class FileTable extends AbstractTableGateway {
 
     protected $table = 'Files';
+    protected $pathData = '';
 
     public function __construct() {
         $this->adapter = GlobalAdapterFeature::getStaticAdapter();
@@ -24,17 +25,24 @@ class FileTable extends AbstractTableGateway {
         $resultSetPrototype = new ResultSet();
         $resultSetPrototype->setArrayObjectPrototype(new File());
         $this->resultSetPrototype = $resultSetPrototype;
+
+        $this->pathData = $_SERVER['DOCUMENT_ROOT'].'/../data';
     }
 
     public function generalFolderName($fileId) {
         $folderName = (int)($fileId/1000 + 1);
-        $dir = $_SERVER['DOCUMENT_ROOT'].'/uploads/'.$folderName;
+        $uploadsFolder = $this->pathData.'/uploads';
+        $dirFolderName = $uploadsFolder.'/'.$folderName;
 
-        if(!is_dir($dir)) {
-            mkdir($dir, 0777, true);
+        if(!is_dir($uploadsFolder)) {
+            mkdir($uploadsFolder, 0777, true);
         }
 
-        return $dir;
+        if(!is_dir($dirFolderName)) {
+            mkdir($dirFolderName, 0777, true);
+        }
+
+        return $dirFolderName;
     }
 
     public function getFileByFileId($fileId) {
@@ -51,7 +59,12 @@ class FileTable extends AbstractTableGateway {
             return false;
         }
 
-        $targetTemp = $_SERVER['DOCUMENT_ROOT'].'/temp/'.$dataFile['name'];
+        $tempFolder = $this->pathData.'/temp';
+        if(!is_dir($tempFolder)) {
+            mkdir($tempFolder, 0777, true);
+        }
+
+        $targetTemp = $tempFolder.'/'.$dataFile['name'];
         move_uploaded_file( $dataFile['tmp_name'], $targetTemp);
         $strSha1 = sha1_file($targetTemp);
 
