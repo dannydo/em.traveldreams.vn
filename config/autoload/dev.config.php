@@ -5,7 +5,7 @@ return array(
         'adapters' => array(
             'db_english_media' => array(
                 'driver'         => 'Pdo',
-                'dsn'            => 'mysql:dbname=staging.em.traveldreams.vn;host=localhost',
+                'dsn'            => 'mysql:dbname=dev.em.traveldreams.vn;host=localhost',
                 'username' => 'developer',
                 'password' => 'kiss259',
                 'driver_options' => array(
@@ -24,4 +24,4 @@ return array(
             ),
         ),
     )
-    );
+);
