@@ -29,11 +29,10 @@ class FileTable extends AbstractTableGateway {
 
     public function generalFolderName($fileId) {
         $folderName = (int)($fileId/1000 + 1);
-        $uploadsFolder = $this->pathUploads.'/uploads';
-        $dirFolderName = $uploadsFolder.'/'.$folderName;
+        $dirFolderName = $this->pathUploads.'/'.$folderName;
 
-        if(!is_dir($uploadsFolder)) {
-            mkdir($uploadsFolder, 0777, true);
+        if(!is_dir($this->pathUploads)) {
+            mkdir($this->pathUploads, 0777, true);
         }
 
         if(!is_dir($dirFolderName)) {

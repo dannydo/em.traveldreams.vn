@@ -26,6 +26,6 @@ return array(
     ),
 
     'application' => array(
-        'path_upload' => '/home/web/data/dev.em.traveldreams.vn',
+        'path_upload' => '/home/web/data/dev.em.traveldreams.vn/uploads',
     ),
 );

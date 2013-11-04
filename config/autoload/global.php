@@ -36,6 +36,10 @@ return array(
         ),
     ),
 
+    'application' => array(
+        'path_upload' => '/home/web/data/live.em.traveldreams.vn/uploads',
+    ),
+
     'service_manager' => array(
         'abstract_factories' => array(
             'Zend\Db\Adapter\AdapterAbstractServiceFactory',
