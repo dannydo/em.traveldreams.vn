@@ -163,3 +163,19 @@ $('.btnApproveVoiceExists').click(function() {
         $(this).addClass('btn btn-default');
     }
 });
+
+$('.btnListenVoiceExists').click(function() {
+    var id = $(this).attr('id');
+    var audio = $('#audio-'+id);
+    audio.get(0).play();
+
+    $(this).removeClass('btn-default');
+    $(this).addClass('btn-success');
+
+});
+
+$("audio").bind('ended', function(){
+    var elm = $(this).parent().children().get(1);
+    $(elm).removeClass('btn-success');
+    $(elm).addClass('btn-default');
+});

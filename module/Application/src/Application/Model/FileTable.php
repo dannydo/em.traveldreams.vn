@@ -8,11 +8,9 @@
 
 namespace Application\Model;
 
-
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\Feature\GlobalAdapterFeature;
-use Zend\Debug\Debug;
 
 class FileTable extends AbstractTableGateway {
 
@@ -55,7 +53,7 @@ class FileTable extends AbstractTableGateway {
 
 
     public function addFile($dataFile) {
-        if($dataFile['error']) {
+        if($dataFile['error'] || strtolower($dataFile['type']) != 'audio/mp3') {
             return false;
         }
 

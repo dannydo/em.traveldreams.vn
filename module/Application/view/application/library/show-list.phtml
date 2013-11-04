@@ -74,12 +74,22 @@
             $(".error-message").html('<div class="alert alert-danger">Please add a word!</div>');
             $("#txtWord").parent().parent(".form-group").addClass('has-error');
             checkForm = false;
-        } else {
-            if((enMeaning==null || enMeaning == '')){
-                $(".error-message").html('<div class="alert alert-danger">Please add English meaning!</div>');
-                $("#meaningEN").parent().parent(".form-group").addClass('has-error');
-                checkForm = false;
-            }
+        } else if((enMeaning==null || enMeaning == '')){
+            $(".error-message").html('<div class="alert alert-danger">Please add English meaning!</div>');
+            $("#meaningEN").parent().parent(".form-group").addClass('has-error');
+            checkForm = false;
+        }
+        else {
+            $('#displayAddVoice').find('.voiceFileWord').each(function() {
+                $(this).parent().parent(".form-group").removeClass('has-error');
+                var ext = $(this).val().split('.').pop().toLowerCase();
+
+                if($.inArray(ext, ['mp3']) == -1 && $(this).val() != '') {
+                    $(".error-message").html('<div class="alert alert-danger">Please upload file with mp3 format!</div>');
+                    $(this).parent().parent(".form-group").addClass('has-error');
+                    checkForm=false;
+                }
+            });
         }
 
         if (checkForm) {

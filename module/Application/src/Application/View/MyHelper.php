@@ -15,14 +15,20 @@ class MyHelper extends AbstractHelper
 
     protected $route;
 
-    public function __construct($route)
-    {
+    public function __construct($route) {
         $this->route = $route;
     }
 
-    public function getAllParams()
-    {
+    public function getAllParams() {
         $params = $this->route->getParams();
         return $params;
     }
+
+    public function generatePathForFile($fileId, $type) {
+        $folderName = (int)($fileId/1000 + 1);
+        $dirFolderName = '/uploads/'.$folderName.'/'.$fileId.'.'.$type;
+
+        return $dirFolderName;
+    }
+
 }
