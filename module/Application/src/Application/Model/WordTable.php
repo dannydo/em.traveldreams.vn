@@ -174,9 +174,21 @@ class WordTable extends AbstractTableGateway {
         }
     }
 
-    function autoCheckAndUpdateStatusWord($dataWord, $dataSentenceEN, $dataSentenceVI, $dataMeaningEN, $dataMeaningVI) {
+    /**
+     * Auto update status word
+     *
+     * @param $dataWord
+     * @param $dataSentenceEN
+     * @param $dataSentenceVI
+     * @param $dataMeaningEN
+     * @param $dataMeaningVI
+     * @param $dataWordVoicesEN
+     */
+    function autoCheckAndUpdateStatusWord($dataWord, $dataSentenceEN, $dataSentenceVI, $dataMeaningEN, $dataMeaningVI, $dataWordVoicesEN) {
         $isNeedContent = false;
         $isWaitingApproveContent = false;
+        $isWaitingApproveSound = false;
+        $isCompleted = false;
         $status = $this->arrStatus['1'];
 
         if (is_null($dataWord->Word) ||$dataWord->Word == '') {
@@ -229,6 +241,25 @@ class WordTable extends AbstractTableGateway {
             $status = $this->arrStatus['2'];
             if (!$isWaitingApproveContent) {
                 $status = $this->arrStatus['3'];
+
+                if(count($dataWordVoicesEN) > 0 ) {
+                    foreach($dataWordVoicesEN as $voice) {
+                        if($voice->IsApproved == 0) {
+                            $isWaitingApproveSound = true;
+                            break;
+                        }
+                        else {
+                            $isCompleted = true;
+                        }
+                    }
+
+                    if($isWaitingApproveSound) {
+                        $status = $this->arrStatus['4'];
+                    }
+                    else if($isCompleted) {
+                        $status = $this->arrStatus['5'];
+                    }
+                }
             }
         }
 

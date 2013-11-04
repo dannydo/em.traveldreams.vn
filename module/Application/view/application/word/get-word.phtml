@@ -34,7 +34,7 @@
                 <label for="inputEmail1" class="col-lg-3 control-label"><?php echo $voice->AccentName; ?></label>
                 <div class="col-lg-9">
                     <button type="button" class="btn btn-default btnListenVoiceExists"><span class="glyphicon glyphicon-volume-up"></span></button>
-                    <button type="button" class="btn btn-success btnApproveVoiceExists" id="<?php echo $voice->VoiceId; ?>"><span class="glyphicon glyphicon-ok"></span></button>
+                    <button type="button" class="<?php echo ($voice->IsApproved)? 'btn btn-success':'btn btn-default' ?> btnApproveVoiceExists" id="<?php echo $voice->VoiceId; ?>"><span class="glyphicon glyphicon-ok"></span></button>
                     <button type="button" class="btn btn-default btnRemoveVoiceExists" id="<?php echo $voice->VoiceId; ?>"><span class="glyphicon glyphicon-remove"></span></button>
                 </div>
             </div>

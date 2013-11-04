@@ -76,6 +76,11 @@ class WordController extends AbstractActionController
             $arrVoiceWordId = mb_split(',', $dataPost['arrIdVoiceDelete']);
             $voiceTable->deleteVoices($arrVoiceWordId);
 
+            // Approve voice for word
+            for($nVoiceExists=0; $nVoiceExists<count($dataPost['idVoice']); $nVoiceExists++) {
+                $voiceTable->approveVoice($dataPost['idVoice'][$nVoiceExists], $dataPost['approveVoice'][$nVoiceExists]);
+            }
+
             // Update meaning for word
             $meaningTable->editMeaning($dataPost['id-meaningEN'], $dataPost['meaningEN'], $dataPost['approve-meaningEN']);
             $meaningTable->editMeaning($dataPost['id-meaningVI'], $dataPost['meaningVI'], $dataPost['approve-meaningVI']);
@@ -121,7 +126,9 @@ class WordController extends AbstractActionController
         $data['WordVoicesEN'] = $voiceTable->getVoicesForWord($wordId, $languageTable->arrLanguage['EN']);
         $data['AccentTypes'] = $accentTypeTable->fetchAll();
 
-        $wordTable->autoCheckAndUpdateStatusWord($data['Word'], $data['SentenceEN'], $data['SentenceVI'], $data['MeaningEN'], $data['MeaningVI']);
+        if ($request->isPost()) {
+            $wordTable->autoCheckAndUpdateStatusWord($data['Word'], $data['SentenceEN'], $data['SentenceVI'], $data['MeaningEN'], $data['MeaningVI'], $data['WordVoicesEN']);
+        }
 
         $view = new ViewModel(
             array(

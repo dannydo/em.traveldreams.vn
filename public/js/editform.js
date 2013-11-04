@@ -149,3 +149,17 @@ $('.btnRemoveVoiceExists').click(function() {
     var strId = $('#arrIdVoiceDelete').val() + $(this).attr('id') + ',';
     $('#arrIdVoiceDelete').val(strId);
 });
+
+$('.btnApproveVoiceExists').click(function() {
+    var elem = $(this).parent().parent().children().first();
+    if($(elem).val() == 0) {
+        $(elem).val(1)
+        $(this).removeClass('btn btn-default')
+        $(this).addClass('btn btn-success');
+    }
+    else {
+        $(elem).val(0)
+        $(this).removeClass('btn btn-success')
+        $(this).addClass('btn btn-default');
+    }
+});
