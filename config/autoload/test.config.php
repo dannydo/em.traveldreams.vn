@@ -23,5 +23,9 @@ return array(
                 ),
             ),
         ),
-    )
+    ),
+
+    'application' => array(
+        'path_upload' => '/home/web/data/test.em.traveldreams.vn',
+    ),
 );

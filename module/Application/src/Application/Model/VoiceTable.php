@@ -17,14 +17,16 @@ use Zend\Db\TableGateway\Feature\GlobalAdapterFeature;
 class VoiceTable extends AbstractTableGateway {
 
     protected $table = 'Voices';
+    public $pathUploads = '';
 
     public $objectType = array(
         1 => 'WORD',
         2 => 'SENTENCE'
     );
 
-    public function __construct() {
+    public function __construct($pathUploads) {
         $this->adapter = GlobalAdapterFeature::getStaticAdapter();
+        $this->pathUploads = $pathUploads;
     }
 
     /**
@@ -72,7 +74,7 @@ class VoiceTable extends AbstractTableGateway {
     }
 
     public function deleteVoice($voiceId) {
-        $fileTable = new FileTable();
+        $fileTable = new FileTable($this->pathUploads);
         $voice = $this->getVoice($voiceId);
 
         if(isset($voice->FileId)) {

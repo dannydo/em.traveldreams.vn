@@ -15,21 +15,21 @@ use Zend\Db\TableGateway\Feature\GlobalAdapterFeature;
 class FileTable extends AbstractTableGateway {
 
     protected $table = 'Files';
-    protected $pathData = '';
+    public $pathUploads = '';
 
-    public function __construct() {
+    public function __construct($pathUploads) {
         $this->adapter = GlobalAdapterFeature::getStaticAdapter();
 
         $resultSetPrototype = new ResultSet();
         $resultSetPrototype->setArrayObjectPrototype(new File());
         $this->resultSetPrototype = $resultSetPrototype;
 
-        $this->pathData = $_SERVER['DOCUMENT_ROOT'].'/../data';
+        $this->pathUploads = $pathUploads;
     }
 
     public function generalFolderName($fileId) {
         $folderName = (int)($fileId/1000 + 1);
-        $uploadsFolder = $this->pathData.'/uploads';
+        $uploadsFolder = $this->pathUploads.'/uploads';
         $dirFolderName = $uploadsFolder.'/'.$folderName;
 
         if(!is_dir($uploadsFolder)) {
@@ -57,7 +57,7 @@ class FileTable extends AbstractTableGateway {
             return false;
         }
 
-        $tempFolder = $this->pathData.'/temp';
+        $tempFolder = $this->pathUploads.'/temp';
         if(!is_dir($tempFolder)) {
             mkdir($tempFolder, 0777, true);
         }
@@ -93,7 +93,7 @@ class FileTable extends AbstractTableGateway {
     public function deleteFile($fileId) {
         $file = $this->getFileByFileId($fileId);
         if(isset($file->FileId)) {
-            $voiceTable = new VoiceTable();
+            $voiceTable = new VoiceTable($this->pathUploads);
             $voices = $voiceTable->getVoiceByFileId($fileId);
             if($voices->count() == 0) {
                 if($this->delete(array('FileId' => $fileId)) > 0) {
