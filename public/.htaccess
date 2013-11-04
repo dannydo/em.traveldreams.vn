@@ -21,5 +21,5 @@ AuthType Basic
       AuthUserFile /home/web/sites/em.traveldreams.vn/public/.htpasswd
       require valid-user
 
-Deny from env=live_url
+#Deny from env=live_url
 Satisfy any
