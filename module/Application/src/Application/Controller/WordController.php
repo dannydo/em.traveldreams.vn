@@ -37,9 +37,9 @@ class WordController extends AbstractActionController
         $wordTagTable = new WordTagTable();
         $accentTypeTable = new AccentTypeTable();
 
-        $config = $this->getServiceLocator()->get("Config")['application'];
-        $voiceTable = new VoiceTable($config['path_upload']);
-        $fileTable = new FileTable($config['path_upload']);
+        $config = $this->getServiceLocator()->get("Config");
+        $voiceTable = new VoiceTable($config['application']['path_upload']);
+        $fileTable = new FileTable($config['application']['path_upload']);
 
         // update and insert data
         $request = $this->getRequest();
