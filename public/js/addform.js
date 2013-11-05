@@ -6,6 +6,7 @@ var nSentenceReal = 0;
 
 function checkExistWord(){
     var word = $("#word").val();
+    $("#vi-meaning").val("");
     $.ajax({
         type: "POST",
         url: "/add-word/check-word",
@@ -90,12 +91,6 @@ window.onload = function() {
         addSentence(++nSentences, ++nSentenceReal)
     });
 
-    $('#word').keyup(function(e){
-        if(e.keyCode == 13)
-        {
-            $(".tt-query").focus();
-        }
-    });
 
     $('#word').typeahead({
         name: 'dictionary',
@@ -104,13 +99,24 @@ window.onload = function() {
         minLength: 3
     });
 
+    $('#word').on('change', checkExistWord);
+
+    $('#word').bind('typeahead:selected', function(obj, datum, name) {
+        checkExistWord();
+    })
+
+    $('#word').keyup(function(e){
+        if(e.keyCode == 13)
+        {
+            $(".tt-query").focus();
+        }
+    });
+
     $('.tt-query').css('background-color','#fff');
 
     $(".btn-addWord").click(function(e){
         var word = $('#word').val();
         var enMeaning = $('#en-meaning').val();
-
-        //var viMeaning = $('#vi-meaning').val();
 
         if((word == null) || (word == '')) {
             $(".error-message").html('<div class="alert alert-danger">Please add a word!</div>');
