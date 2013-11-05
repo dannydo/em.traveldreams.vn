@@ -64,9 +64,27 @@ class IndexController extends AbstractActionController {
         if($word != ""){
             $dict = $this->enVITable->getWordByWord(strtolower($word));
 
+            //google dictionary
+            $url = "http://www.google.com/dictionary/json?callback=a&client=p&sl=en&tl=en&q=";
+            $file = file_get_contents($url . urlencode($word));
+            $file = substr($file, 2, -10);
+            $file = preg_replace("/\\\x[0-9a-f]{2}/", "", $file);
+            $json = json_decode($file);
+
+            $en_meaning = "";
+            if(isset($json->primaries)){
+                $json = $json->primaries[0]->entries;
+                foreach($json as $entry){
+                    if($entry->type == "meaning"){
+                        $en_meaning .= '- ' . $entry->terms[0]->text . PHP_EOL;
+                    }
+                }
+            }
+
             $result = new JsonModel(array(
                 'Word' =>  $dict->word,
-                'Definition' => strip_tags($dict->definition)
+                'EN' =>  $en_meaning,
+                'VI' => strip_tags($dict->definition)
             ));
             return $result;
         }

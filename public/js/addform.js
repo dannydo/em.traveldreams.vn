@@ -7,6 +7,7 @@ var nSentenceReal = 0;
 function checkExistWord(){
     var word = $("#word").val();
     $("#vi-meaning").val("");
+    $("#en-meaning").val("");
     $.ajax({
         type: "POST",
         url: "/add-word/check-word",
@@ -29,7 +30,8 @@ function checkExistWord(){
                     url: "dictionary/index/get-word",
                     data: {word : word},
                     success: function(data){
-                        $("#vi-meaning").val(data.Definition)
+                        $("#en-meaning").val(data.EN)
+                        $("#vi-meaning").val(data.VI)
                     },
                     dataType: "json"
                 });
