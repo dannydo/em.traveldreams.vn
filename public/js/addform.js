@@ -90,6 +90,13 @@ window.onload = function() {
         addSentence(++nSentences, ++nSentenceReal)
     });
 
+    $('#word').keyup(function(e){
+        if(e.keyCode == 13)
+        {
+            $(".tt-query").focus();
+        }
+    });
+
     $('#word').typeahead({
         name: 'dictionary',
         remote: '/dictionary/index/dictionary?word=%QUERY',
