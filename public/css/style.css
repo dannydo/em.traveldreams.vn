@@ -131,6 +131,10 @@ hr{
 
 }
 
+.bootstrap-tagsinput .twitter-typeahead{
+    width:auto;
+}
+
 .twitter-typeahead{
     width:100%;
 }
